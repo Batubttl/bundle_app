@@ -10,7 +10,7 @@ import '../core/extensions/news_category_extension.dart';
 class NewsService {
   final ApiClient _apiClient;
   static const String baseUrl = 'https://newsapi.org/v2';
-  static const String apiKey = '2a3eb28f3687475c833ad29a6085fcb2';
+  static const String apiKey = 'c01000e7c81c40f890d0e4a6400fad53';
 
   NewsService(this._apiClient);
 
@@ -29,6 +29,8 @@ class NewsService {
   Future<List<Article>> getNewsByCategory(NewsCategory category,
       {int page = 1}) async {
     try {
+      print('Fetching news for category: ${category.toString()}, page: $page');
+
       final response = await _apiClient.dio.get(
         '$baseUrl/everything',
         queryParameters: {
@@ -41,29 +43,38 @@ class NewsService {
         },
       );
 
-      return _parseResponse(response, category);
+      print('API Response Status: ${response.statusCode}');
+      print('API Response Data: ${response.data}');
+
+      final articles = _parseResponse(response, category);
+      return articles;
     } catch (e) {
-      print('Error in getNewsByCategory: $e');
-      throw Exception('Haberler yüklenirken bir hata oluştu');
+      print('Detailed error in getNewsByCategory: $e');
+      if (e is DioException) {
+        print('DioError type: ${e.type}');
+        print('DioError message: ${e.message}');
+        print('DioError response: ${e.response}');
+      }
+      rethrow;
     }
   }
 
   String _getCategoryQuery(NewsCategory category) {
     switch (category) {
       case NewsCategory.tumu:
-        return '(gündem OR spor OR ekonomi OR teknoloji OR siyaset OR magazin)';
+        return '(türkiye OR türk OR ankara OR istanbul)';
       case NewsCategory.gundem:
         return '(gündem OR siyaset OR politika)';
       case NewsCategory.spor:
         return '(spor OR futbol OR basketbol OR fenerbahçe OR galatasaray OR beşiktaş)';
       case NewsCategory.teknoloji:
-        return '(teknoloji OR yazılım OR bilişim OR yapay zeka OR mobil)';
+        return '(teknoloji OR yazılım OR bilişim OR yapay zeka)';
       case NewsCategory.bilim:
         return '(bilim OR uzay OR araştırma OR keşif)';
       case NewsCategory.ekonomi:
         return '(ekonomi OR finans OR borsa OR dolar OR altın)';
       case NewsCategory.eglence:
-        return '(magazin OR sinema OR dizi OR müzik OR eğlence)';
+        return '(magazin OR sinema OR dizi OR müzik)';
     }
   }
 
@@ -71,6 +82,8 @@ class NewsService {
     if (keyword.trim().isEmpty) return [];
 
     try {
+      print('Searching news with keyword: $keyword');
+
       final response = await _apiClient.dio.get(
         '$baseUrl/everything',
         queryParameters: {
@@ -82,11 +95,19 @@ class NewsService {
         },
       );
 
+      print('Search Response Status: ${response.statusCode}');
+      print('Search Response Data: ${response.data}');
+
       final articles = _parseResponse(response, NewsCategory.tumu);
       return articles;
     } catch (e) {
-      print('Error in searchNews: $e');
-      throw Exception('Arama yapılırken bir hata oluştu');
+      print('Detailed error in searchNews: $e');
+      if (e is DioException) {
+        print('DioError type: ${e.type}');
+        print('DioError message: ${e.message}');
+        print('DioError response: ${e.response}');
+      }
+      rethrow;
     }
   }
 
@@ -104,7 +125,38 @@ class NewsService {
             .toList();
       }
     }
+    print('Parse error - Status Code: ${response.statusCode}');
+    print('Parse error - Response Data: ${response.data}');
     return [];
+  }
+
+  List<Article> _removeDuplicates(List<Article> articles) {
+    final uniqueArticles = <Article>[];
+    final seenUrls = <String>{};
+
+    for (var article in articles) {
+      if (!seenUrls.contains(article.url)) {
+        seenUrls.add(article.url);
+        uniqueArticles.add(article);
+      }
+    }
+
+    return uniqueArticles;
+  }
+
+  String _normalizeText(String text) {
+    // Başlıktaki özel karakterleri ve boşlukları kaldır
+    return text
+        .toLowerCase()
+        .replaceAll(RegExp(r'[^\w\s]'), '')
+        .replaceAll(RegExp(r'\s+'), ' ')
+        .trim();
+  }
+
+  String _normalizeUrl(String url) {
+    // URL'deki query parametrelerini kaldır
+    final uri = Uri.parse(url);
+    return '${uri.scheme}://${uri.host}${uri.path}';
   }
 
   String _getCategoryKeywords(NewsCategory category) {
