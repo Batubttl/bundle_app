@@ -7,7 +7,7 @@ import '../../widgets/news_grid_item.dart';
 import 'search_view_model.dart';
 
 class SearchView extends StatefulWidget {
-  const SearchView({Key? key}) : super(key: key);
+  const SearchView({super.key});
 
   @override
   State<SearchView> createState() => _SearchViewState();

@@ -11,7 +11,7 @@ class HomeViewModel extends ChangeNotifier {
   // State variables
   List<Article> _articles = [];
   bool _isLoading = false;
-  bool _isLoadingMore = false;
+  final bool _isLoadingMore = false;
   String? _error;
   NewsCategory _selectedCategory = NewsCategory.tumu;
   int _currentPage = 1;

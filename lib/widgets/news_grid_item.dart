@@ -1,109 +1,107 @@
+import 'package:bundle_app/core/constants/app_constants.dart';
 import 'package:bundle_app/model/article_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import '../core/extensions/date_time_extension.dart';
 
 class NewsGridItem extends StatelessWidget {
   final Article article;
+  final bool isFeatured;
 
-  const NewsGridItem({Key? key, required this.article}) : super(key: key);
+  const NewsGridItem({
+    super.key,
+    required this.article,
+    this.isFeatured = false,
+  });
+
+  String _getTimeAgo() {
+    try {
+      final publishDate = DateTime.parse(article.publishedAt);
+      return publishDate.timeAgo();
+    } catch (e) {
+      return '';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    return RepaintBoundary(
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.grey[900],
-          borderRadius: BorderRadius.circular(12.r),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Image
-            ClipRRect(
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(12.r),
-                topRight: Radius.circular(12.r),
-              ),
-              child: AspectRatio(
-                aspectRatio: 16 / 9,
-                child: CachedNetworkImage(
-                  imageUrl: article.urlToImage ?? '',
-                  fit: BoxFit.cover,
-                  memCacheWidth: 300,
-                  placeholder: (context, url) => Container(
-                    color: Colors.grey[800],
-                  ),
-                  errorWidget: (context, url, error) => Container(
-                    color: Colors.grey[800],
-                    child: Icon(Icons.error, color: Colors.grey[600]),
-                  ),
-                ),
+    return Container(
+      decoration: BoxDecoration(
+        color: const Color.fromARGB(255, 20, 20, 21),
+        borderRadius: BorderRadius.circular(16.r),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Haber Resmi
+          ClipRRect(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(16.r),
+              topRight: Radius.circular(16.r),
+            ),
+            child: AspectRatio(
+              aspectRatio: isFeatured ? 16 / 9 : 16 / 12,
+              child: Image.network(
+                article.urlToImage ?? '',
+                fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) {
+                  return Container(
+                    color: Colors.grey[900],
+                    child: const Icon(Icons.error, color: Colors.white),
+                  );
+                },
               ),
             ),
+          ),
 
-            // Content
-            Expanded(
-              child: Padding(
-                padding: EdgeInsets.all(8.w),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Source
-                    Text(
-                      article.source.toUpperCase(),
-                      style: TextStyle(
-                        color: Colors.grey[400],
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-
-                    SizedBox(height: 4.h),
-
-                    // Title
-                    Expanded(
-                      child: Text(
-                        article.title,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w500,
-                        ),
-                        maxLines: 3,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-
-                    // Time
-                    Text(
-                      _getTimeAgo(article.publishedAt),
-                      style: TextStyle(
-                        color: Colors.grey[600],
-                        fontSize: 11.sp,
-                      ),
-                    ),
-                  ],
+          // İçerik Kısmı
+          Padding(
+            padding: EdgeInsets.all(16.w),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Kaynak
+                Text(
+                  article.source,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 12,
+                    fontStyle: FontStyle.normal,
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: -1,
+                  ),
                 ),
-              ),
+                SizedBox(height: 8.h),
+
+                // Başlık
+                Text(
+                  article.title ?? '',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: isFeatured ? 22.sp : 20.sp,
+                    fontWeight: FontWeight.w600,
+                    height: 1.2,
+                    letterSpacing: -1,
+                  ),
+                  maxLines: isFeatured ? 5 : 4,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                SizedBox(height: 12.h),
+
+                // Zaman
+                Text(
+                  _getTimeAgo(),
+                  style: TextStyle(
+                    color: Colors.grey[600],
+                    fontSize: 13.sp,
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
-  }
-
-  String _getTimeAgo(String dateString) {
-    final date = DateTime.parse(dateString);
-    final now = DateTime.now();
-    final difference = now.difference(date);
-
-    if (difference.inMinutes < 60) {
-      return '${difference.inMinutes} dakika';
-    } else if (difference.inHours < 24) {
-      return '${difference.inHours} saat';
-    } else {
-      return '${difference.inDays} gün';
-    }
   }
 }

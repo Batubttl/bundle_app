@@ -1,4 +1,3 @@
-import 'package:bundle_app/core/constants/api_constants.dart';
 
 class ApiConstants {
   static const String baseUrl = 'https://newsapi.org/v2';

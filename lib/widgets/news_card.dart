@@ -6,7 +6,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 class NewsCard extends StatelessWidget {
   final Article article;
 
-  const NewsCard({Key? key, required this.article, required Size size}) : super(key: key);
+  const NewsCard({super.key, required this.article, required Size size});
 
   @override
   Widget build(BuildContext context) {

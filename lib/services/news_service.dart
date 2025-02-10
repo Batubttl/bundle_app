@@ -1,12 +1,9 @@
-import 'dart:convert';
-import 'package:bundle_app/core/constants/api_constants.dart';
 import 'package:bundle_app/model/article_model.dart';
-import 'package:http/http.dart' as http;
 import '../core/constants/app_constants.dart';
 import 'package:dio/dio.dart';
 import '../core/network/api_client.dart';
-import '../core/extensions/news_category_extension.dart';
 
+//TODO : Refactor
 class NewsService {
   final ApiClient _apiClient;
   static const String baseUrl = 'https://newsapi.org/v2';
@@ -129,7 +126,7 @@ class NewsService {
     print('Parse error - Response Data: ${response.data}');
     return [];
   }
-
+  // TODO : Extension / Sete çevirilebilir.
   List<Article> _removeDuplicates(List<Article> articles) {
     final uniqueArticles = <Article>[];
     final seenUrls = <String>{};
@@ -143,7 +140,7 @@ class NewsService {
 
     return uniqueArticles;
   }
-
+ // TODO : Extension
   String _normalizeText(String text) {
     // Başlıktaki özel karakterleri ve boşlukları kaldır
     return text
@@ -158,7 +155,7 @@ class NewsService {
     final uri = Uri.parse(url);
     return '${uri.scheme}://${uri.host}${uri.path}';
   }
-
+ // TODO : Enum
   String _getCategoryKeywords(NewsCategory category) {
     switch (category) {
       case NewsCategory.tumu:

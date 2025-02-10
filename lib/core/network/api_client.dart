@@ -1,12 +1,11 @@
+import 'package:bundle_app/core/constants/api_constants.dart';
 import 'package:dio/dio.dart';
 
 class ApiClient {
-  static const String _baseUrl = 'https://newsapi.org/v2';
-  static const String _apiKey = '2a3eb28f3687475c833ad29a6085fcb2';
-
   ApiClient() {
     _dio = Dio(
       BaseOptions(
+        baseUrl: ApiConstants.baseUrl,
         connectTimeout: const Duration(seconds: 30),
         receiveTimeout: const Duration(seconds: 30),
         validateStatus: (status) {
@@ -14,7 +13,7 @@ class ApiClient {
         },
         headers: {
           'Content-Type': 'application/json',
-          'X-Api-Key': '2a3eb28f3687475c833ad29a6085fcb2',
+          'X-Api-Key': ApiConstants.apiKey,
         },
       ),
     );

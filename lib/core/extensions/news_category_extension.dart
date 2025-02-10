@@ -38,4 +38,25 @@ extension NewsCategoryExtension on NewsCategory {
         return '(ekonomi OR finans OR borsa OR dolar OR altın)';
     }
   }
+
+  String toDisplayString() {
+    switch (this) {
+      case NewsCategory.tumu:
+        return 'TÜMÜ';
+      case NewsCategory.bilim:
+        return 'BİLİM';
+      case NewsCategory.teknoloji:
+        return 'TEKNOLOJİ';
+      case NewsCategory.eglence:
+        return 'EĞLENCE';
+      case NewsCategory.gundem:
+        return 'GÜNDEM';
+      case NewsCategory.spor:
+        return 'SPOR';
+      case NewsCategory.ekonomi:
+        return 'EKONOMİ';
+      default:
+        return 'TÜMÜ';
+    }
+  }
 }
