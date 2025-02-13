@@ -51,6 +51,24 @@ class AuthService {
     }
   }
 
+  Future<void> sendPasswordResetEmail(String email) async {
+    try {
+      await _auth.sendPasswordResetEmail(email: email);
+    } catch (e) {
+      if (e is FirebaseAuthException) {
+        switch (e.code) {
+          case 'user-not-found':
+            throw 'Bu e-posta adresi ile kayıtlı bir kullanıcı bulunamadı.';
+          case 'invalid-email':
+            throw 'Geçersiz e-posta adresi.';
+          default:
+            throw 'Bir hata oluştu: ${e.message}';
+        }
+      }
+      throw 'Beklenmeyen bir hata oluştu.';
+    }
+  }
+
   // Mevcut kullanıcıyı al
   User? get currentUser => _auth.currentUser;
 
