@@ -1,9 +1,8 @@
-import 'package:bundle_app/core/constants/app_constants.dart';
 import 'package:bundle_app/model/article_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import '../core/extensions/date_time_extension.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class NewsGridItem extends StatelessWidget {
   final Article article;
@@ -42,15 +41,17 @@ class NewsGridItem extends StatelessWidget {
             ),
             child: AspectRatio(
               aspectRatio: isFeatured ? 16 / 9 : 16 / 12,
-              child: Image.network(
-                article.urlToImage ?? '',
+              child: CachedNetworkImage(
+                imageUrl: article.urlToImage ?? '',
                 fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) {
-                  return Container(
-                    color: Colors.grey[900],
-                    child: const Icon(Icons.error, color: Colors.white),
-                  );
-                },
+                errorWidget: (context, url, error) => Container(
+                  color: Colors.grey[900],
+                  child: Icon(
+                    Icons.error_outline,
+                    color: Colors.red,
+                    size: 32.sp,
+                  ),
+                ),
               ),
             ),
           ),
@@ -72,7 +73,7 @@ class NewsGridItem extends StatelessWidget {
                     letterSpacing: -1,
                   ),
                 ),
-                SizedBox(height: 8.h),
+                SizedBox(height: 8),
 
                 // Başlık
                 Text(
@@ -84,7 +85,7 @@ class NewsGridItem extends StatelessWidget {
                     height: 1.2,
                     letterSpacing: -1,
                   ),
-                  maxLines: isFeatured ? 5 : 4,
+                  maxLines: isFeatured ? 8 : 4,
                   overflow: TextOverflow.ellipsis,
                 ),
                 SizedBox(height: 12.h),

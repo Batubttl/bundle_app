@@ -2,6 +2,8 @@ import 'package:bundle_app/model/article_model.dart';
 import '../core/constants/app_constants.dart';
 import 'package:dio/dio.dart';
 import '../core/network/api_client.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 //TODO : Refactor
 class NewsService {
@@ -126,6 +128,7 @@ class NewsService {
     print('Parse error - Response Data: ${response.data}');
     return [];
   }
+
   // TODO : Extension / Sete çevirilebilir.
   List<Article> _removeDuplicates(List<Article> articles) {
     final uniqueArticles = <Article>[];
@@ -140,7 +143,8 @@ class NewsService {
 
     return uniqueArticles;
   }
- // TODO : Extension
+
+  // TODO : Extension
   String _normalizeText(String text) {
     // Başlıktaki özel karakterleri ve boşlukları kaldır
     return text
@@ -155,7 +159,8 @@ class NewsService {
     final uri = Uri.parse(url);
     return '${uri.scheme}://${uri.host}${uri.path}';
   }
- // TODO : Enum
+
+  // TODO : Enum
   String _getCategoryKeywords(NewsCategory category) {
     switch (category) {
       case NewsCategory.tumu:
@@ -195,7 +200,76 @@ class NewsService {
     }
   }
 
-//extension
+  Future<List<Article>> getTopHeadlines() async {
+    try {
+      final response = await http.get(
+        Uri.parse(
+          '$baseUrl/top-headlines?country=tr&pageSize=20&apiKey=$apiKey',
+        ),
+      );
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        final List<dynamic> articles = data['articles'];
+        return articles
+            .map((json) => Article.fromJson(
+                  json,
+                  NewsCategory.tumu,
+                ))
+            .toList();
+      } else {
+        throw Exception('Popüler haberler yüklenemedi: ${response.statusCode}');
+      }
+    } catch (e) {
+      throw Exception('Popüler haberler yüklenemedi: $e');
+    }
+  }
+
+  Future<List<Article>> getFeaturedNews() async {
+    try {
+      final response = await http.get(
+        Uri.parse(
+          '$baseUrl/top-headlines?country=tr&sortBy=popularity&pageSize=10&apiKey=$apiKey',
+        ),
+      );
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        final List<dynamic> articles = data['articles'];
+        return articles
+            .map((json) => Article.fromJson(
+                  json,
+                  NewsCategory.tumu,
+                ))
+            .toList();
+      } else {
+        throw Exception(
+            'Öne çıkan haberler yüklenemedi: ${response.statusCode}');
+      }
+    } catch (e) {
+      throw Exception('Öne çıkan haberler yüklenemedi: $e');
+    }
+  }
+
+  // String kategoriyi NewsCategory enum'ına çeviren yardımcı metod
+  NewsCategory _getCategoryFromString(String category) {
+    switch (category.toLowerCase()) {
+      case 'general':
+        return NewsCategory.tumu;
+      case 'business':
+        return NewsCategory.ekonomi;
+      case 'technology':
+        return NewsCategory.teknoloji;
+      case 'science':
+        return NewsCategory.bilim;
+      case 'entertainment':
+        return NewsCategory.eglence;
+      case 'sports':
+        return NewsCategory.spor;
+      default:
+        return NewsCategory.tumu;
+    }
+  }
 }
 
 class NewsResponse {

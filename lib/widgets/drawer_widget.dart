@@ -1,6 +1,6 @@
+import 'package:bundle_app/views/auth/welcome_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../core/constants/app_constants.dart';
 
 class DrawerWidget extends StatelessWidget {
   const DrawerWidget({super.key});
@@ -8,12 +8,12 @@ class DrawerWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: MediaQuery.of(context).size.width * 0.75, // Drawer genişliği
+      width: MediaQuery.of(context).size.width * 0.75,
       color: Colors.black,
       child: SafeArea(
         child: Column(
           children: [
-            // Üst Kısım
+            // Üst Kısım aynı kalacak
             Container(
               padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
               child: Row(
@@ -24,7 +24,17 @@ class DrawerWidget extends StatelessWidget {
                       CircleAvatar(
                         backgroundColor: Colors.red,
                         radius: 20.r,
-                        child: Icon(Icons.arrow_forward, color: Colors.white),
+                        child: IconButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => WelcomeView(),
+                              ),
+                            );
+                          },
+                          icon: Icon(Icons.arrow_forward, color: Colors.white),
+                        ),
                       ),
                       SizedBox(width: 12.w),
                       Text(
@@ -46,7 +56,7 @@ class DrawerWidget extends StatelessWidget {
               ),
             ),
 
-            // Dolar Kuru ve Hava Durumu
+            // Dolar Kuru ve Hava Durumu aynı kalacak
             Container(
               padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
               child: Row(
@@ -79,25 +89,21 @@ class DrawerWidget extends StatelessWidget {
 
             SizedBox(height: 20.h),
 
-            // Kategoriler ve Alt Kısım
+            // Kategoriler kısmını TextButton'lara dönüştürüyoruz
             Expanded(
               child: Column(
                 children: [
-                  // Kategoriler (Sabit)
                   Column(
                     children: [
-                      _buildCategoryItem('TÜMÜ', '19'),
-                      _buildCategoryItem('BİLİM', '6'),
-                      _buildCategoryItem('TEKNOLOJİ', '4'),
-                      _buildCategoryItem('EĞLENCE', '1'),
-                      _buildCategoryItem('GÜNDEM', '8'),
+                      _buildCategoryButton('TÜMÜ', '19'),
+                      _buildCategoryButton('BİLİM', '6'),
+                      _buildCategoryButton('TEKNOLOJİ', '4'),
+                      _buildCategoryButton('EĞLENCE', '1'),
+                      _buildCategoryButton('GÜNDEM', '8'),
                     ],
                   ),
-
-                  // Boşluk (Esnek)
                   const Spacer(),
-
-                  // Alt Kısım (Sabit)
+                  // Alt kısım aynı kalacak
                   Padding(
                     padding: EdgeInsets.all(16.w),
                     child: Column(
@@ -120,35 +126,46 @@ class DrawerWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildCategoryItem(String title, String count) {
-    return Container(
+  // Yeni kategori butonu widget'ı
+  Widget _buildCategoryButton(String title, String count) {
+    return Padding(
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            title,
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 14.sp,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-          Row(
-            children: [
-              Text(
-                '($count)',
-                style: TextStyle(
-                  color: title == 'TÜMÜ' ? Colors.red : Colors.white,
-                  fontSize: 14.sp,
-                ),
+      child: TextButton(
+        onPressed: () {
+          // TabBar'a yönlendirme eklenecek
+        },
+        style: TextButton.styleFrom(
+          padding: EdgeInsets.zero,
+          minimumSize: Size.fromHeight(40.h),
+          alignment: Alignment.centerLeft,
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              title,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 14.sp,
+                fontWeight: FontWeight.w500,
               ),
-              if (title != 'TÜMÜ')
-                Icon(Icons.keyboard_arrow_down,
-                    color: Colors.white, size: 24.sp),
-            ],
-          ),
-        ],
+            ),
+            Row(
+              children: [
+                Text(
+                  '($count)',
+                  style: TextStyle(
+                    color: title == 'TÜMÜ' ? Colors.red : Colors.white,
+                    fontSize: 14.sp,
+                  ),
+                ),
+                if (title != 'TÜMÜ')
+                  Icon(Icons.keyboard_arrow_down,
+                      color: Colors.white, size: 24.sp),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

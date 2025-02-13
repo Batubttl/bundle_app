@@ -1,7 +1,6 @@
-import 'package:bundle_app/core/dio/locator.dart';
+import 'package:bundle_app/core/network/api_client.dart';
+import 'package:bundle_app/services/news_service.dart';
 import 'package:bundle_app/views/home/home_view_model.dart';
-import 'package:bundle_app/widgets/custom_app_bar.dart';
-import 'package:bundle_app/widgets/news_card.dart';
 import 'package:bundle_app/widgets/wordle_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -11,9 +10,22 @@ import '../../widgets/news_grid_item.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../widgets/drawer_widget.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import '../news/news_details_view.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ChangeNotifierProvider(
+      create: (context) => HomeViewModel(NewsService(ApiClient())),
+      child: const _HomeViewContent(),
+    );
+  }
+}
+
+class _HomeViewContent extends StatelessWidget {
+  const _HomeViewContent({Key? key}) : super(key: key);
 
   Future<void> _launchWordle() async {
     final Uri url = Uri.parse('https://wordleturkce.bundle.app/');
@@ -24,12 +36,12 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.black,
-      drawer: const DrawerWidget(),
-      body: SafeArea(
-        child: Consumer<HomeViewModel>(
-          builder: (context, viewModel, child) => Column(
+    return Consumer<HomeViewModel>(
+      builder: (context, viewModel, child) => Scaffold(
+        backgroundColor: Colors.black,
+        drawer: const DrawerWidget(),
+        body: SafeArea(
+          child: Column(
             children: [
               CategoryTabBar(
                 selectedCategory: viewModel.selectedCategory,
@@ -67,9 +79,22 @@ class HomeView extends StatelessWidget {
                                     itemBuilder: (context, index) {
                                       final article = viewModel.articles[index];
                                       final isFeatured = index % 5 == 0;
-                                      return NewsGridItem(
-                                        article: article,
-                                        isFeatured: isFeatured,
+                                      return InkWell(
+                                        onTap: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  NewsDetailView(
+                                                article: article,
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                        child: NewsGridItem(
+                                          article: article,
+                                          isFeatured: isFeatured,
+                                        ),
                                       );
                                     },
                                   ),

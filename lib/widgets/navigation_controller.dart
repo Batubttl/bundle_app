@@ -3,7 +3,7 @@ import 'package:bundle_app/views/featured/featured_view.dart';
 import 'package:bundle_app/views/notifications/notifications_view.dart';
 import 'package:bundle_app/views/search/search_view.dart';
 import 'package:flutter/material.dart';
-import '../../views/home/home_view.dart';
+import '../views/home/home_view.dart';
 
 class NavigationController extends StatefulWidget {
   const NavigationController({super.key});

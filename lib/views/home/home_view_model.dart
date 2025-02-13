@@ -16,6 +16,7 @@ class HomeViewModel extends ChangeNotifier {
   NewsCategory _selectedCategory = NewsCategory.tumu;
   int _currentPage = 1;
   bool _hasMore = true;
+  int currentIndex = 0; // Bottom Navigation için eklendi
 
   // Debounce için
   Timer? _debounceTimer;
@@ -107,6 +108,12 @@ class HomeViewModel extends ChangeNotifier {
     if (!_isLoading && !_isLoadingMore && _hasMore) {
       await loadMoreNews();
     }
+  }
+
+  void onTabTapped(int index) {
+    // Bottom Navigation için eklendi
+    currentIndex = index;
+    notifyListeners();
   }
 
   @override

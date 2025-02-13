@@ -1,4 +1,4 @@
-import 'package:bundle_app/core/navigation/navigation_controller.dart';
+import 'package:bundle_app/widgets/navigation_controller.dart';
 import 'package:get_it/get_it.dart';
 import '../../services/news_service.dart';
 import '../network/api_client.dart';

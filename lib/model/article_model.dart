@@ -4,6 +4,7 @@ class Article {
   final String title;
   final String? description;
   final String? urlToImage;
+  final String? content;
   final String url;
   final String publishedAt;
   final String? author;
@@ -11,6 +12,7 @@ class Article {
   final String source;
 
   Article({
+    this.content,
     required this.title,
     this.description,
     this.urlToImage,
