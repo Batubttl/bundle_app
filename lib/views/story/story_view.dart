@@ -1,3 +1,4 @@
+import 'package:bundle_app/views/news/news_details_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../model/story_model.dart';
@@ -120,47 +121,52 @@ class _StoryContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        // Header
-        Padding(
-          padding: EdgeInsets.only(top: 60.h, left: 16.w, right: 16.w),
-          child: Row(
-            children: [
-              CircleAvatar(
-                backgroundColor: categoryColor,
-                child: Text(categoryTitle[0]),
-              ),
-              SizedBox(width: 8.w),
-              Text(
-                categoryTitle,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.w500,
+    return GestureDetector(
+      onVerticalDragEnd: (details) {
+        if (details.primaryVelocity! < 0) {
+          // Yukarı kaydırma
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => NewsDetailView(article: story),
+            ),
+          );
+        }
+      },
+      child: Column(
+        children: [
+          // Header
+          Padding(
+            padding: EdgeInsets.only(top: 60.h, left: 16.w, right: 16.w),
+            child: Row(
+              children: [
+                CircleAvatar(
+                  backgroundColor: categoryColor,
+                  child: Text(categoryTitle[0]),
                 ),
-              ),
-              const Spacer(),
-              Text(
-                '1 GÜN ÖNCE',
-                style: TextStyle(
-                  color: Colors.grey[400],
-                  fontSize: 12.sp,
+                SizedBox(width: 8.w),
+                Text(
+                  categoryTitle,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
-              ),
-            ],
+                const Spacer(),
+                Text(
+                  '1 GÜN ÖNCE',
+                  style: TextStyle(
+                    color: Colors.grey[400],
+                    fontSize: 12.sp,
+                  ),
+                ),
+              ],
+            ),
           ),
-        ),
 
-        // Content
-        Expanded(
-          child: GestureDetector(
-            onVerticalDragEnd: (details) {
-              if (details.primaryVelocity! < 0) {
-                // Yukarı kaydırıldığında haber detayına git
-                context.read<StoryViewModel>().navigateToNewsDetail(context);
-              }
-            },
+          // Content
+          Expanded(
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 16.w),
               child: Column(
@@ -174,6 +180,26 @@ class _StoryContent extends StatelessWidget {
                         height: 200.h,
                         width: double.infinity,
                         fit: BoxFit.cover,
+                        loadingBuilder: (context, child, loadingProgress) {
+                          if (loadingProgress == null) return child;
+                          return Center(
+                            child: CircularProgressIndicator(
+                              color: categoryColor,
+                              value: loadingProgress.expectedTotalBytes != null
+                                  ? loadingProgress.cumulativeBytesLoaded /
+                                      loadingProgress.expectedTotalBytes!
+                                  : null,
+                            ),
+                          );
+                        },
+                        errorBuilder: (context, error, stackTrace) {
+                          return Container(
+                            height: 200.h,
+                            width: double.infinity,
+                            color: Colors.grey[900],
+                            child: Icon(Icons.error, color: Colors.white),
+                          );
+                        },
                       ),
                     ),
                   SizedBox(height: 24.h),
@@ -191,34 +217,45 @@ class _StoryContent extends StatelessWidget {
               ),
             ),
           ),
-        ),
 
-        // Footer
-        Padding(
-          padding: EdgeInsets.only(bottom: 32.h),
-          child: Column(
-            children: [
-              Text(
-                story.source,
-                style: TextStyle(
-                  color: Colors.grey[400],
-                  fontSize: 14.sp,
-                  letterSpacing: 0.5,
+          // Footer with swipe indicator
+          Padding(
+            padding: EdgeInsets.only(bottom: 32.h),
+            child: Column(
+              children: [
+                Text(
+                  story.source,
+                  style: TextStyle(
+                    color: Colors.grey[400],
+                    fontSize: 14.sp,
+                    letterSpacing: 0.5,
+                  ),
                 ),
-              ),
-              SizedBox(height: 8.h),
-              Text(
-                'HABER DETAYI İÇİN KAYDIR',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 12.sp,
-                  fontWeight: FontWeight.bold,
+                SizedBox(height: 8.h),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.keyboard_arrow_up,
+                      color: Colors.white,
+                      size: 20.sp,
+                    ),
+                    SizedBox(width: 4.w),
+                    Text(
+                      'HABER DETAYI İÇİN KAYDIR',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

@@ -7,12 +7,11 @@ import 'package:get_it/get_it.dart';
 class FeaturedViewModel extends ChangeNotifier {
   final NewsService _newsService = GetIt.I<NewsService>();
 
-  List<Article> _articles = [];
+  Map<NewsCategory, List<Article>> _categoryArticles = {};
   bool _isLoading = true;
   String? _error;
 
   // Getter'lar
-  List<Article> get articles => _articles;
   bool get isLoading => _isLoading;
   String? get error => _error;
 
@@ -25,8 +24,20 @@ class FeaturedViewModel extends ChangeNotifier {
       _isLoading = true;
       notifyListeners();
 
-      // Tüm haberleri çek
-      _articles = await _newsService.getNewsByCategory(NewsCategory.tumu);
+      // Her kategori için haberleri çek
+      final futures = [
+        _newsService.getNewsByCategory(NewsCategory.tumu),
+        _newsService.getNewsByCategory(NewsCategory.bilim),
+        _newsService.getNewsByCategory(NewsCategory.gundem),
+      ];
+
+      final results = await Future.wait(futures);
+
+      _categoryArticles = {
+        NewsCategory.tumu: results[0],
+        NewsCategory.bilim: results[1],
+        NewsCategory.gundem: results[2],
+      };
 
       _isLoading = false;
       notifyListeners();
@@ -40,22 +51,20 @@ class FeaturedViewModel extends ChangeNotifier {
 
   // Story getirme metodları
   List<Article> getFeaturedStories() {
-    return _articles
-        .where((article) => article.category == NewsCategory.tumu)
-        .take(5)
-        .toList();
+    return _categoryArticles[NewsCategory.gundem]?.take(5).toList() ?? [];
   }
 
   List<Article> getLatestStories() {
-    // Son 5 haberi al, kategori farketmeksizin
-    return _articles.take(5).toList();
+    return _categoryArticles[NewsCategory.tumu]?.take(5).toList() ?? [];
   }
 
   List<Article> getScienceStories() {
-    return _articles
-        .where((article) => article.category == NewsCategory.bilim)
-        .take(5)
-        .toList();
+    return _categoryArticles[NewsCategory.bilim]?.take(5).toList() ?? [];
+  }
+
+  // Tüm haberler için getter
+  List<Article> get articles {
+    return _categoryArticles[NewsCategory.tumu] ?? [];
   }
 
   // Story görüntülenme durumunu işaretleme
