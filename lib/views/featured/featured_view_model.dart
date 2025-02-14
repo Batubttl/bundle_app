@@ -8,12 +8,15 @@ class FeaturedViewModel extends ChangeNotifier {
   final NewsService _newsService = GetIt.I<NewsService>();
 
   Map<NewsCategory, List<Article>> _categoryArticles = {};
+  Article? _latestSportsArticle;
   bool _isLoading = true;
   String? _error;
 
   // Getter'lar
   bool get isLoading => _isLoading;
   String? get error => _error;
+  Article? get latestSportsArticle => _latestSportsArticle;
+  List<Article> get articles => _categoryArticles[NewsCategory.tumu] ?? [];
 
   FeaturedViewModel() {
     _initializeData();
@@ -29,6 +32,7 @@ class FeaturedViewModel extends ChangeNotifier {
         _newsService.getNewsByCategory(NewsCategory.tumu),
         _newsService.getNewsByCategory(NewsCategory.bilim),
         _newsService.getNewsByCategory(NewsCategory.gundem),
+        _newsService.getNewsByCategory(NewsCategory.spor),
       ];
 
       final results = await Future.wait(futures);
@@ -38,6 +42,12 @@ class FeaturedViewModel extends ChangeNotifier {
         NewsCategory.bilim: results[1],
         NewsCategory.gundem: results[2],
       };
+
+      // Spor haberlerinden en sonuncusunu al
+      final sportsNews = results[3];
+      if (sportsNews.isNotEmpty) {
+        _latestSportsArticle = sportsNews.first;
+      }
 
       _isLoading = false;
       notifyListeners();
@@ -60,11 +70,6 @@ class FeaturedViewModel extends ChangeNotifier {
 
   List<Article> getScienceStories() {
     return _categoryArticles[NewsCategory.bilim]?.take(5).toList() ?? [];
-  }
-
-  // Tüm haberler için getter
-  List<Article> get articles {
-    return _categoryArticles[NewsCategory.tumu] ?? [];
   }
 
   // Story görüntülenme durumunu işaretleme

@@ -1,4 +1,5 @@
 import 'package:bundle_app/core/network/api_client.dart';
+import 'package:bundle_app/widgets/featured_sports_banner.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -109,9 +110,25 @@ class _FeaturedViewContent extends StatelessWidget {
             ),
           ),
 
+          // Spor haberi banner'ı
+          if (viewModel.latestSportsArticle != null)
+            FeaturedSportsBanner(
+              article: viewModel.latestSportsArticle!,
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => NewsDetailView(
+                      article: viewModel.latestSportsArticle!,
+                    ),
+                  ),
+                );
+              },
+            ),
+
           // Popüler Başlığı
           Padding(
-            padding: EdgeInsets.only(left: 16.w, top: 24.h, bottom: 8.h),
+            padding: EdgeInsets.only(left: 16.w, top: 8.h, bottom: 8.h),
             child: Text(
               'Popüler',
               style: TextStyle(
