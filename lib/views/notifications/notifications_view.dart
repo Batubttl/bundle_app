@@ -1,3 +1,7 @@
+import 'package:bundle_app/model/notification_model.dart';
+import 'package:bundle_app/services/notifications_service.dart';
+import 'package:bundle_app/widgets/custom_app_bar.dart';
+import 'package:bundle_app/widgets/navigation_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -10,80 +14,194 @@ class NotificationsView extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (context) => NotificationsViewModel(),
-      child: const _NotificationsViewContent(),
+      child: Consumer<NotificationsViewModel>(
+        builder: (context, viewModel, child) {
+          return Scaffold(
+            backgroundColor: Colors.black,
+            appBar: CustomAppBar(
+              title: 'BİLDİRİMLER',
+              centerTitle: true,
+              showBackButton: false,
+              leading: IconButton(
+                icon: Icon(Icons.menu, color: Colors.white, size: 24.sp),
+                onPressed: () {
+                  // Menü işlevi
+                },
+              ),
+              actions: [
+                IconButton(
+                  icon: Icon(Icons.settings, color: Colors.white, size: 24.sp),
+                  onPressed: () {
+                    // Ayarlar işlevi
+                  },
+                ),
+              ],
+            ),
+            body: _buildBody(viewModel),
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _buildBody(NotificationsViewModel viewModel) {
+    if (viewModel.isLoading) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    if (viewModel.error != null) {
+      return Center(
+        child: Text(
+          viewModel.error!,
+          style: const TextStyle(color: Colors.red),
+        ),
+      );
+    }
+
+    if (viewModel.notifications.isEmpty) {
+      return const Center(
+        child: Text(
+          'Bildirim bulunmuyor',
+          style: TextStyle(color: Colors.white),
+        ),
+      );
+    }
+
+    return ListView.builder(
+      itemCount: viewModel.notifications.length,
+      itemBuilder: (context, index) {
+        final notification = viewModel.notifications[index];
+        return NotificationCard(
+          notification: notification,
+          onTap: () => viewModel.markAsRead(notification.id),
+        );
+      },
     );
   }
 }
 
-class _NotificationsViewContent extends StatelessWidget {
-  const _NotificationsViewContent({Key? key}) : super(key: key);
+// Bildirim kartı widget'ı
+class NotificationCard extends StatelessWidget {
+  final NotificationModel notification;
+  final VoidCallback onTap;
+
+  const NotificationCard({
+    required this.notification,
+    required this.onTap,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<NotificationsViewModel>(
-      builder: (context, viewModel, child) => Scaffold(
-        backgroundColor: Colors.black,
-        body: SafeArea(
-          child: CustomScrollView(
-            slivers: [
-              SliverAppBar(
-                floating: true,
-                backgroundColor: Colors.black,
-                toolbarHeight: 56.h,
-                title: Text(
-                  'BİLDİRİMLER',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18.sp,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              if (viewModel.isLoading)
-                const SliverFillRemaining(
-                  child: Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                )
-              else if (viewModel.error != null)
-                SliverFillRemaining(
-                  child: Center(
-                    child: Text(
-                      viewModel.error!,
-                      style: TextStyle(
-                        color: Colors.red,
-                        fontSize: 16.sp,
-                      ),
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 20.h),
+        color: Colors.transparent,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Saat (sol tarafta)
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Sol taraf - Saat
+                SizedBox(
+                  width: 45.w,
+                  child: Text(
+                    _formatTime(notification.timestamp),
+                    style: TextStyle(
+                      color: Colors.grey[600],
+                      fontSize: 24.sp,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
-                )
-              else if (viewModel.notifications.isEmpty)
-                SliverFillRemaining(
-                  child: Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.notifications_none,
-                          size: 48.sp,
-                          color: Colors.grey[400],
-                        ),
-                        SizedBox(height: 16.h),
-                        Text(
-                          'Henüz bildirim yok',
-                          style: TextStyle(
-                            color: Colors.grey[400],
-                            fontSize: 16.sp,
+                ),
+                SizedBox(width: 12.w),
+
+                // Sağ taraf - İçerik
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Kaynak ve logo
+                      Row(
+                        children: [
+                          // Logo
+                          CircleAvatar(
+                            radius: 12.r,
+                            backgroundColor: Colors.transparent,
+                            backgroundImage: NetworkImage(
+                              notification.sourceImageUrl ?? '',
+                            ),
                           ),
+                          SizedBox(width: 8.w),
+                          // Kaynak adı
+                          Text(
+                            notification.source,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 14.sp,
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 8.h),
+
+                      // Başlık
+                      Text(
+                        notification.title,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.w500,
                         ),
-                      ],
-                    ),
+                      ),
+                      SizedBox(height: 8.h),
+
+                      // Kategori ve tarih
+                      Row(
+                        children: [
+                          Text(
+                            notification.category,
+                            style: TextStyle(
+                              color: Colors.grey[600],
+                              fontSize: 12.sp,
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 4.w),
+                            child: Text(
+                              '•',
+                              style: TextStyle(
+                                color: Colors.grey[600],
+                                fontSize: 12.sp,
+                              ),
+                            ),
+                          ),
+                          Text(
+                            '14 Şubat',
+                            style: TextStyle(
+                              color: Colors.grey[600],
+                              fontSize: 12.sp,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
-            ],
-          ),
+              ],
+            ),
+          ],
         ),
       ),
     );
+  }
+
+  String _formatTime(DateTime timestamp) {
+    String hour = timestamp.hour.toString().padLeft(2, '0');
+    String minute = timestamp.minute.toString().padLeft(2, '0');
+    return '$hour:$minute';
   }
 }

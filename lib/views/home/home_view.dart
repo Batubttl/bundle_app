@@ -73,8 +73,8 @@ class _HomeViewContent extends StatelessWidget {
                                     physics:
                                         const NeverScrollableScrollPhysics(),
                                     crossAxisCount: 2,
-                                    mainAxisSpacing: 16.h,
-                                    crossAxisSpacing: 16.w,
+                                    mainAxisSpacing: 16,
+                                    crossAxisSpacing: 16,
                                     itemCount: viewModel.articles.length,
                                     itemBuilder: (context, index) {
                                       final article = viewModel.articles[index];

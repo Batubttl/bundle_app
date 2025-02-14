@@ -85,7 +85,7 @@ class NewsGridItem extends StatelessWidget {
                     height: 1.2,
                     letterSpacing: -1,
                   ),
-                  maxLines: isFeatured ? 8 : 4,
+                  maxLines: isFeatured ? 8 : 8,
                   overflow: TextOverflow.ellipsis,
                 ),
                 SizedBox(height: 12.h),

@@ -8,14 +8,25 @@ import '../../services/news_service.dart';
 import '../news/news_details_view.dart';
 import '../../core/utils/date_formatter.dart';
 import 'featured_view_model.dart';
+import '../story/story_view.dart';
+import '../story/story_view_model.dart';
 
 class FeaturedView extends StatelessWidget {
   const FeaturedView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => FeaturedViewModel(NewsService(ApiClient())),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => FeaturedViewModel(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => StoryViewModel(
+            stories: context.read<FeaturedViewModel>().getFeaturedStories(),
+          ),
+        ),
+      ],
       child: const _FeaturedViewContent(),
     );
   }
@@ -39,7 +50,7 @@ class _FeaturedViewContent extends StatelessWidget {
               return CustomScrollView(
                 slivers: [
                   _buildAppBar(),
-                  _buildBundleSpecial(),
+                  _buildBundleSpecial(context, viewModel),
                   _buildNewsList(viewModel),
                 ],
               );
@@ -50,13 +61,12 @@ class _FeaturedViewContent extends StatelessWidget {
     );
   }
 
-  Widget _buildBundleSpecial() {
+  Widget _buildBundleSpecial(
+      BuildContext context, FeaturedViewModel viewModel) {
     return SliverToBoxAdapter(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // NIVEA Reklamı
-
           // BUNDLE ÖZEL Başlığı
           Padding(
             padding: EdgeInsets.only(left: 16.w, top: 16.h, bottom: 12.h),
@@ -77,12 +87,24 @@ class _FeaturedViewContent extends StatelessWidget {
               scrollDirection: Axis.horizontal,
               padding: EdgeInsets.symmetric(horizontal: 16.w),
               children: [
-                _buildStoryItem(
-                    'Hot Bundle', Colors.red, 'assets/images/hot_bundle.jpg'),
-                _buildStoryItem('Dün Ne Oldu?', Colors.blue,
-                    'assets/images/dun_ne_oldu.jpg'),
-                _buildStoryItem(
-                    'Bilim', Colors.green, 'assets/images/bilim.jpg'),
+                _buildStoryButton(
+                  context: context,
+                  title: 'Hot Bundle',
+                  color: Colors.red,
+                  stories: viewModel.getFeaturedStories(),
+                ),
+                _buildStoryButton(
+                  context: context,
+                  title: 'Dün Ne Oldu?',
+                  color: Colors.blue,
+                  stories: viewModel.getLatestStories(),
+                ),
+                _buildStoryButton(
+                  context: context,
+                  title: 'Bilim',
+                  color: Colors.green,
+                  stories: viewModel.getScienceStories(),
+                ),
               ],
             ),
           ),
@@ -104,39 +126,88 @@ class _FeaturedViewContent extends StatelessWidget {
     );
   }
 
-  Widget _buildStoryItem(String title, Color color, String imagePath) {
-    return Container(
-      width: 70.w,
-      margin: EdgeInsets.only(right: 16.w),
-      child: Column(
-        children: [
-          Container(
-            width: 70.w,
-            height: 70.w,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              border: Border.all(
-                color: color,
-                width: 2,
-              ),
-              image: DecorationImage(
-                image: AssetImage(imagePath),
-                fit: BoxFit.cover,
+  Widget _buildStoryButton({
+    required BuildContext context,
+    required String title,
+    required Color color,
+    required List<Article> stories,
+  }) {
+    return GestureDetector(
+      onTap: () {
+        if (stories.isNotEmpty) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ChangeNotifierProvider(
+                create: (context) => StoryViewModel(stories: stories),
+                child: StoryView(
+                  stories: stories,
+                  categoryTitle: title,
+                  categoryColor: color,
+                ),
               ),
             ),
-          ),
-          SizedBox(height: 4.h),
-          Text(
-            title,
-            style: TextStyle(
-              color: Colors.grey[400],
-              fontSize: 12.sp,
+          );
+        }
+      },
+      child: Container(
+        width: 70.w,
+        margin: EdgeInsets.only(right: 16.w),
+        child: Column(
+          children: [
+            Container(
+              width: 70.w,
+              height: 70.w,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(
+                  color: color,
+                  width: 2,
+                ),
+              ),
+              child: ClipOval(
+                child: stories.isNotEmpty && stories.first.urlToImage != null
+                    ? Image.network(
+                        stories.first.urlToImage!,
+                        fit: BoxFit.cover,
+                        loadingBuilder: (context, child, loadingProgress) {
+                          if (loadingProgress == null) return child;
+                          return Center(
+                            child: CircularProgressIndicator(
+                              color: color,
+                              value: loadingProgress.expectedTotalBytes != null
+                                  ? loadingProgress.cumulativeBytesLoaded /
+                                      loadingProgress.expectedTotalBytes!
+                                  : null,
+                            ),
+                          );
+                        },
+                        errorBuilder: (context, error, stackTrace) {
+                          return Center(
+                            child: Icon(Icons.image_not_supported,
+                                color: Colors.grey[700]),
+                          );
+                        },
+                      )
+                    : Center(
+                        child: Icon(Icons.image_not_supported,
+                            color: Colors.grey[700]),
+                      ),
+              ),
             ),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            textAlign: TextAlign.center,
-          ),
-        ],
+            SizedBox(height: 4.h),
+            Text(
+              title,
+              style: TextStyle(
+                color: Colors.grey[400],
+                fontSize: 12.sp,
+              ),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
       ),
     );
   }

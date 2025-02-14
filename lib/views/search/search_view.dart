@@ -8,6 +8,8 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:provider/provider.dart';
 import 'search_view_model.dart';
 import 'package:get_it/get_it.dart';
+import 'package:bundle_app/widgets/custom_app_bar.dart';
+import 'package:bundle_app/widgets/drawer_widget.dart';
 
 class SearchView extends StatelessWidget {
   const SearchView({super.key});
@@ -62,95 +64,74 @@ class _SearchViewContentState extends State<_SearchViewContent>
     return Consumer<SearchViewModel>(
       builder: (context, viewModel, child) => Scaffold(
         backgroundColor: Colors.black,
+        appBar: CustomAppBar(
+          title: 'İÇERİK MAĞAZASI',
+          centerTitle: true,
+          showBackButton: false,
+          leading: IconButton(
+            icon: Icon(Icons.menu, color: Colors.white, size: 24.sp),
+            onPressed: () {
+              Scaffold.of(context).openDrawer();
+            },
+          ),
+          actions: [
+            Padding(
+              padding: EdgeInsets.only(right: 16.w),
+              child: Text(
+                'TR',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 14.sp,
+                ),
+              ),
+            ),
+          ],
+        ),
+        drawer: const DrawerWidget(),
         body: Column(
           children: [
-            // App Bar
-            Container(
+            // Search Bar
+            Padding(
               padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-              decoration: BoxDecoration(
-                color: Colors.black,
-                border: Border(
-                  bottom: BorderSide(
-                    color: Colors.grey[900]!,
-                    width: 0.5,
+              child: TextField(
+                controller: _searchController,
+                onChanged: (query) => _onSearchChanged(query, viewModel),
+                style: const TextStyle(color: Colors.white),
+                decoration: InputDecoration(
+                  hintText: 'Haber, Mecra, Konu ara',
+                  hintStyle: TextStyle(color: Colors.grey[600]),
+                  suffixIcon: IconButton(
+                    icon: Icon(Icons.close, color: Colors.grey[600]),
+                    onPressed: () {
+                      _searchController.clear();
+                      viewModel.clearSearch();
+                    },
                   ),
+                  filled: true,
+                  fillColor: Colors.grey[900],
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8.r),
+                    borderSide: BorderSide.none,
+                  ),
+                  contentPadding: EdgeInsets.symmetric(horizontal: 16.w),
                 ),
               ),
-              child: SafeArea(
-                child: Column(
-                  children: [
-                    // Title and Language
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        IconButton(
-                          icon: Icon(Icons.menu,
-                              color: Colors.white, size: 24.sp),
-                          onPressed: () {},
-                          padding: EdgeInsets.zero,
-                          constraints: const BoxConstraints(),
-                        ),
-                        Text(
-                          'İÇERİK MAĞAZASI',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Text(
-                          'TR',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 14.sp,
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 16.h),
-                    // Search Bar
-                    TextField(
-                      controller: _searchController,
-                      onChanged: (query) => _onSearchChanged(query, viewModel),
-                      style: const TextStyle(color: Colors.white),
-                      decoration: InputDecoration(
-                        hintText: 'Haber, Mecra, Konu ara',
-                        hintStyle: TextStyle(color: Colors.grey[600]),
-                        suffixIcon: IconButton(
-                          icon: Icon(Icons.close, color: Colors.grey[600]),
-                          onPressed: () {
-                            _searchController.clear();
-                            viewModel.clearSearch();
-                          },
-                        ),
-                        filled: true,
-                        fillColor: Colors.grey[900],
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8.r),
-                          borderSide: BorderSide.none,
-                        ),
-                        contentPadding: EdgeInsets.symmetric(horizontal: 16.w),
-                      ),
-                    ),
-                    SizedBox(height: 16.h),
-                    // TabBar
-                    TabBar(
-                      controller: _tabController,
-                      isScrollable: true,
-                      indicatorColor: Colors.red,
-                      indicatorWeight: 2,
-                      labelColor: Colors.white,
-                      unselectedLabelColor: Colors.grey,
-                      padding: EdgeInsets.zero,
-                      indicatorPadding: EdgeInsets.zero,
-                      tabAlignment: TabAlignment.start,
-                      tabs: _tabs.map((tab) => Tab(text: tab)).toList(),
-                      dividerColor: Colors.transparent,
-                      indicatorSize: TabBarIndicatorSize.label,
-                    ),
-                  ],
-                ),
-              ),
+            ),
+
+            // TabBar
+            TabBar(
+              controller: _tabController,
+              isScrollable: true,
+              indicatorColor: Colors.red,
+              indicatorWeight: 2,
+              labelColor: Colors.white,
+              unselectedLabelColor: Colors.grey,
+              padding: EdgeInsets.zero,
+              indicatorPadding: EdgeInsets.zero,
+              tabAlignment: TabAlignment.center,
+              tabs: _tabs.map((tab) => Tab(text: tab)).toList(),
+              dividerColor: Colors.transparent,
+              indicatorSize: TabBarIndicatorSize.label,
             ),
 
             // Content

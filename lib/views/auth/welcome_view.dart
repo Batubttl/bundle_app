@@ -57,16 +57,6 @@ class WelcomeView extends StatelessWidget {
                 const SizedBox(
                   height: 12,
                 ),
-                CustomButton(
-                  height: 60,
-                  borderRadius: 4,
-                  text: 'Apple ile giriş yap',
-                  onPressed: () {
-                    // Apple giriş işlemi
-                  },
-                  icon: Icons.apple,
-                  backgroundColor: Colors.black,
-                ),
 
                 // Sosyal medya butonları
                 const SizedBox(height: 32),

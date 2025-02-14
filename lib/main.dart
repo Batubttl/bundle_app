@@ -30,9 +30,6 @@ class MyApp extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context) => HomeViewModel(NewsService(ApiClient())),
       child: ScreenUtilInit(
-        designSize: const Size(375, 812),
-        minTextAdapt: true,
-        splitScreenMode: true,
         builder: (context, child) => MaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'Bundle App',
