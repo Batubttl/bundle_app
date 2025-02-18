@@ -8,18 +8,16 @@ class NewsDetailView extends StatelessWidget {
   final Article article;
 
   const NewsDetailView({
-    Key? key,
+    super.key,
     required this.article,
-  }) : super(key: key);
+  });
 
   Future<void> _launchURL() async {
-    if (article.url != null) {
-      final Uri url = Uri.parse(article.url!);
-      if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
-        throw Exception('URL açılamadı: $url');
-      }
+    final Uri url = Uri.parse(article.url!);
+    if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
+      throw Exception('URL açılamadı: $url');
     }
-  }
+    }
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +30,7 @@ class NewsDetailView extends StatelessWidget {
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          article.source?.toUpperCase() ?? '',
+          article.source.toUpperCase() ?? '',
           style: const TextStyle(color: Colors.white),
         ),
         actions: [

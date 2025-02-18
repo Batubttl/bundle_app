@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:bundle_app/widgets/custom_button.dart';
 
 class WelcomeView extends StatelessWidget {
-  const WelcomeView({Key? key}) : super(key: key);
+  const WelcomeView({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -25,7 +25,7 @@ class HomeView extends StatelessWidget {
 }
 
 class _HomeViewContent extends StatelessWidget {
-  const _HomeViewContent({Key? key}) : super(key: key);
+  const _HomeViewContent({super.key});
 
   Future<void> _launchWordle() async {
     final Uri url = Uri.parse('https://wordleturkce.bundle.app/');

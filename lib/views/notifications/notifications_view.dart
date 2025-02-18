@@ -1,7 +1,6 @@
 import 'package:bundle_app/model/notification_model.dart';
-import 'package:bundle_app/services/notifications_service.dart';
 import 'package:bundle_app/widgets/custom_app_bar.dart';
-import 'package:bundle_app/widgets/navigation_controller.dart';
+import 'package:bundle_app/widgets/drawer_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -17,16 +16,17 @@ class NotificationsView extends StatelessWidget {
       child: Consumer<NotificationsViewModel>(
         builder: (context, viewModel, child) {
           return Scaffold(
+            drawer: const DrawerWidget(),
             backgroundColor: Colors.black,
             appBar: CustomAppBar(
               title: 'BİLDİRİMLER',
               centerTitle: true,
               showBackButton: false,
-              leading: IconButton(
-                icon: Icon(Icons.menu, color: Colors.white, size: 24.sp),
-                onPressed: () {
-                  // Menü işlevi
-                },
+              leading: Builder(
+                builder: (BuildContext context) => IconButton(
+                  icon: Icon(Icons.menu, color: Colors.white, size: 24.sp),
+                  onPressed: () => Scaffold.of(context).openDrawer(),
+                ),
               ),
               actions: [
                 IconButton(
@@ -88,8 +88,8 @@ class NotificationCard extends StatelessWidget {
   const NotificationCard({
     required this.notification,
     required this.onTap,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

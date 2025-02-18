@@ -62,7 +62,7 @@ class CategoryTabBar extends StatelessWidget {
     return GestureDetector(
       onTap: () => onCategorySelected(category),
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 16.w),
+        padding: EdgeInsets.symmetric(horizontal: 10.w),
         child: Row(
           children: [
             Text(

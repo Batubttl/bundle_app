@@ -24,7 +24,7 @@ class SearchView extends StatelessWidget {
 }
 
 class _SearchViewContent extends StatefulWidget {
-  const _SearchViewContent({Key? key}) : super(key: key);
+  const _SearchViewContent({super.key});
 
   @override
   State<_SearchViewContent> createState() => _SearchViewContentState();
@@ -63,16 +63,17 @@ class _SearchViewContentState extends State<_SearchViewContent>
   Widget build(BuildContext context) {
     return Consumer<SearchViewModel>(
       builder: (context, viewModel, child) => Scaffold(
+        drawer: const DrawerWidget(),
         backgroundColor: Colors.black,
         appBar: CustomAppBar(
           title: 'İÇERİK MAĞAZASI',
           centerTitle: true,
           showBackButton: false,
-          leading: IconButton(
-            icon: Icon(Icons.menu, color: Colors.white, size: 24.sp),
-            onPressed: () {
-              Scaffold.of(context).openDrawer();
-            },
+          leading: Builder(
+            builder: (BuildContext context) => IconButton(
+              icon: Icon(Icons.menu, color: Colors.white, size: 24.sp),
+              onPressed: () => Scaffold.of(context).openDrawer(),
+            ),
           ),
           actions: [
             Padding(
@@ -87,7 +88,6 @@ class _SearchViewContentState extends State<_SearchViewContent>
             ),
           ],
         ),
-        drawer: const DrawerWidget(),
         body: Column(
           children: [
             // Search Bar

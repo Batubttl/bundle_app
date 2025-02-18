@@ -9,7 +9,7 @@ import 'package:bundle_app/widgets/custom_button.dart';
 import 'package:go_router/go_router.dart';
 
 class LoginView extends StatefulWidget {
-  const LoginView({Key? key}) : super(key: key);
+  const LoginView({super.key});
 
   @override
   State<LoginView> createState() => _LoginViewState();
