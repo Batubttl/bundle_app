@@ -2,6 +2,8 @@ import 'package:bundle_app/model/article_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import '../../core/extensions/theme_extension.dart';
+import '../../core/theme/app_texts.dart';
 
 class NewsCard extends StatelessWidget {
   final Article article;
@@ -20,9 +22,8 @@ class NewsCard extends StatelessWidget {
               padding: EdgeInsets.only(left: 16.w, bottom: 8.h),
               child: Text(
                 article.source.toUpperCase(),
-                style: TextStyle(
-                  color: Colors.grey[500],
-                  fontSize: 12.sp,
+                style: AppTextStyles.caption.copyWith(
+                  color: context.secondaryColor,
                   fontWeight: FontWeight.w600,
                 ),
               ),
@@ -36,17 +37,17 @@ class NewsCard extends StatelessWidget {
                   imageUrl: article.urlToImage!,
                   fit: BoxFit.cover,
                   placeholder: (context, url) => Container(
-                    color: Colors.grey[900],
+                    color: context.cardColor,
                     child: Center(
                       child: CircularProgressIndicator(
                         valueColor:
-                            AlwaysStoppedAnimation<Color>(Colors.grey[700]!),
+                            AlwaysStoppedAnimation<Color>(context.primaryColor),
                       ),
                     ),
                   ),
                   errorWidget: (context, url, error) => Container(
-                    color: Colors.grey[900],
-                    child: Icon(Icons.error, color: Colors.grey[700]),
+                    color: context.cardColor,
+                    child: Icon(Icons.error, color: context.secondaryColor),
                   ),
                 ),
               ),
@@ -55,10 +56,8 @@ class NewsCard extends StatelessWidget {
             padding: EdgeInsets.fromLTRB(16.w, 12.h, 16.w, 8.h),
             child: Text(
               article.title,
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 18.sp,
-                fontWeight: FontWeight.w600,
+              style: AppTextStyles.h2.copyWith(
+                color: context.textColor,
                 height: 1.3,
               ),
               maxLines: 3,
@@ -69,9 +68,8 @@ class NewsCard extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 16.w),
             child: Text(
               _getTimeAgo(article.publishedAt),
-              style: TextStyle(
-                color: Colors.grey[500],
-                fontSize: 12.sp,
+              style: AppTextStyles.caption.copyWith(
+                color: context.secondaryColor,
               ),
             ),
           ),

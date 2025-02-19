@@ -1,4 +1,3 @@
-import 'package:intl/intl.dart';
 
 class DateFormatter {
   static String getTimeAgo(String? dateString) {

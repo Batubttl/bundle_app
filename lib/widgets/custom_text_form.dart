@@ -1,4 +1,7 @@
+import 'package:bundle_app/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
+import '../../core/extensions/theme_extension.dart';
+import '../../core/theme/app_texts.dart';
 
 class CustomTextFormField extends StatelessWidget {
   final TextEditingController controller;
@@ -7,12 +10,12 @@ class CustomTextFormField extends StatelessWidget {
   final String? Function(String?)? validator;
 
   const CustomTextFormField({
-    Key? key,
+    super.key,
     required this.controller,
     required this.hintText,
     this.isPassword = false,
     this.validator,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -21,22 +24,26 @@ class CustomTextFormField extends StatelessWidget {
       child: TextFormField(
         controller: controller,
         obscureText: isPassword,
+        style: AppTextStyles.body.copyWith(color: AppColors.black),
         decoration: InputDecoration(
           hintText: hintText,
-          border: const OutlineInputBorder(
+          hintStyle:
+              AppTextStyles.body.copyWith(color: context.backgroundColor),
+          border: OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(8)),
+            borderSide: BorderSide(color: context.secondaryColor),
           ),
-          enabledBorder: const OutlineInputBorder(
+          enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(8)),
-            borderSide: BorderSide(color: Colors.grey),
+            borderSide: BorderSide(color: context.secondaryColor),
           ),
-          focusedBorder: const OutlineInputBorder(
+          focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(8)),
-            borderSide: BorderSide(color: Colors.grey),
+            borderSide: BorderSide(color: context.secondaryColor),
           ),
-          errorBorder: const OutlineInputBorder(
+          errorBorder: OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(8)),
-            borderSide: BorderSide(color: Colors.red),
+            borderSide: BorderSide(color: context.primaryColor),
           ),
         ),
         validator: validator,

@@ -4,6 +4,8 @@ import 'package:bundle_app/views/notifications/notifications_view.dart';
 import 'package:bundle_app/views/search/search_view.dart';
 import 'package:flutter/material.dart';
 import '../views/home/home_view.dart';
+import '../core/extensions/theme_extension.dart';
+import '../core/theme/app_colors.dart';
 
 class NavigationController extends StatefulWidget {
   const NavigationController({super.key});
@@ -30,7 +32,7 @@ class _NavigationControllerState extends State<NavigationController> {
         decoration: BoxDecoration(
           border: Border(
             top: BorderSide(
-              color: Colors.grey[900]!,
+              color: context.cardColor,
               width: 0.5,
             ),
           ),
@@ -38,10 +40,10 @@ class _NavigationControllerState extends State<NavigationController> {
         child: BottomNavigationBar(
           currentIndex: _selectedIndex,
           onTap: (index) => setState(() => _selectedIndex = index),
-          backgroundColor: Colors.black,
+          backgroundColor: context.backgroundColor,
           type: BottomNavigationBarType.fixed,
-          selectedItemColor: Colors.white,
-          unselectedItemColor: Colors.grey,
+          selectedItemColor: context.textColor,
+          unselectedItemColor: context.secondaryColor,
           showSelectedLabels: false,
           showUnselectedLabels: false,
           items: const [

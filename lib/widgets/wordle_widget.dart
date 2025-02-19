@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../core/extensions/theme_extension.dart';
+import '../core/theme/app_texts.dart';
 
 class WordleWidget extends StatelessWidget {
   const WordleWidget({super.key});
@@ -10,7 +12,7 @@ class WordleWidget extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
       child: Container(
         decoration: BoxDecoration(
-          color: const Color(0xFF1C1C1E),
+          color: context.cardColor,
           borderRadius: BorderRadius.circular(8.r),
         ),
         child: ListTile(
@@ -18,15 +20,14 @@ class WordleWidget extends StatelessWidget {
             width: 40.w,
             height: 40.w,
             decoration: BoxDecoration(
-              color: Colors.green,
+              color: context.tertiaryColor,
               borderRadius: BorderRadius.circular(8.r),
             ),
             child: Center(
               child: Text(
                 'W',
-                style: TextStyle(
+                style: AppTextStyles.h2.copyWith(
                   color: Colors.white,
-                  fontSize: 20.sp,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -34,14 +35,13 @@ class WordleWidget extends StatelessWidget {
           ),
           title: Text(
             'Wordle oyna kafanı dağıt.',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 14.sp,
+            style: AppTextStyles.body.copyWith(
+              color: context.textColor,
             ),
           ),
           trailing: Icon(
             Icons.chevron_right,
-            color: Colors.white,
+            color: context.textColor,
             size: 24.sp,
           ),
           onTap: () {

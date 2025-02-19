@@ -1,7 +1,10 @@
+import 'package:bundle_app/core/extensions/theme_extension.dart';
+import 'package:bundle_app/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../core/constants/app_constants.dart';
 import '../core/extensions/news_category_extension.dart';
+import '../core/theme/app_texts.dart';
 
 class CategoryTabBar extends StatelessWidget {
   final NewsCategory selectedCategory;
@@ -17,10 +20,10 @@ class CategoryTabBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 40,
-      color: Colors.black,
+      color: context.backgroundColor,
       child: Row(
         children: [
-          // Sabit Menu Icon
+          // Menü İkonu
           GestureDetector(
             onTap: () {
               Scaffold.of(context).openDrawer();
@@ -28,27 +31,24 @@ class CategoryTabBar extends StatelessWidget {
             child: Container(
               width: 48.w,
               alignment: Alignment.center,
-              color: Colors.black,
-              child: const Icon(
+              color: context.backgroundColor, // Menü arka plan rengi
+              child: Icon(
                 Icons.menu,
-                color: Colors.white,
+                color: Theme.of(context).brightness == Brightness.dark
+                  ? AppColors.white
+                  : AppColors.black,// Menü ikonu her zaman beyaz
+                size: 24.sp,
               ),
             ),
           ),
 
-          // Scrollable Categories
+          // Kaydırılabilir Kategoriler
           Expanded(
             child: ListView(
               scrollDirection: Axis.horizontal,
-              children: [
-                _buildCategoryTab(NewsCategory.tumu),
-                _buildCategoryTab(NewsCategory.bilim),
-                _buildCategoryTab(NewsCategory.teknoloji),
-                _buildCategoryTab(NewsCategory.eglence),
-                _buildCategoryTab(NewsCategory.gundem),
-                _buildCategoryTab(NewsCategory.spor),
-                _buildCategoryTab(NewsCategory.ekonomi),
-              ],
+              children: NewsCategory.values
+                  .map((category) => _buildCategoryTab(category))
+                  .toList(),
             ),
           ),
         ],
@@ -57,25 +57,27 @@ class CategoryTabBar extends StatelessWidget {
   }
 
   Widget _buildCategoryTab(NewsCategory category) {
-    final bool isSelected = category == selectedCategory;
+    return Builder(builder: (context) {
+      final bool isSelected = category == selectedCategory;
 
-    return GestureDetector(
-      onTap: () => onCategorySelected(category),
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 10.w),
-        child: Row(
-          children: [
-            Text(
-              category.toDisplayString(),
-              style: TextStyle(
-                color: isSelected ? Colors.white : Colors.grey,
-                fontSize: 14.sp,
-                fontWeight: FontWeight.w500,
-              ),
+      return GestureDetector(
+        onTap: () => onCategorySelected(category),
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 12.w),
+          alignment: Alignment.center,
+          child: Text(
+            category.toDisplayString(),
+            style: AppTextStyles.button.copyWith(
+              color: isSelected
+                  ? context.textColor
+                  : context.textColor.withOpacity(0.6),
+              fontSize: 14.sp,
+              fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
+              letterSpacing: -0.3,
             ),
-          ],
+          ),
         ),
-      ),
-    );
+      );
+    });
   }
 }

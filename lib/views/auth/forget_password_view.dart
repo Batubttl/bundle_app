@@ -5,7 +5,7 @@ import 'auth_view_model.dart';
 import '../../services/auth_services.dart';
 
 class ForgotPasswordView extends StatefulWidget {
-  const ForgotPasswordView({Key? key}) : super(key: key);
+  const ForgotPasswordView({super.key});
 
   @override
   State<ForgotPasswordView> createState() => _ForgotPasswordViewState();
@@ -27,7 +27,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
       create: (context) => AuthViewModel(AuthService()),
       child: Consumer<AuthViewModel>(
         builder: (context, viewModel, child) => Scaffold(
-          backgroundColor: Colors.white,
+          backgroundColor: Theme.of(context).colorScheme.onBackground,
           body: SafeArea(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

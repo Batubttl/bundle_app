@@ -1,3 +1,4 @@
+import 'package:bundle_app/core/extensions/theme_extension.dart';
 import 'package:flutter/material.dart';
 
 class SocialButton extends StatelessWidget {
@@ -6,11 +7,11 @@ class SocialButton extends StatelessWidget {
   final VoidCallback onPressed;
 
   const SocialButton({
-    Key? key,
+    super.key,
     this.icon,
     this.imagePath,
     required this.onPressed,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -20,13 +21,13 @@ class SocialButton extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 24),
       decoration: BoxDecoration(
         border: Border.all(
-          color: Colors.grey,
+          color: context.secondaryColor,
           width: 1,
         ),
         borderRadius: BorderRadius.circular(4),
       ),
       child: Material(
-        color: Colors.white,
+        color: context.whiteColor,
         borderRadius: BorderRadius.circular(4),
         child: InkWell(
           onTap: onPressed,

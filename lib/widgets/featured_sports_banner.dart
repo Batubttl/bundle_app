@@ -2,16 +2,18 @@ import 'package:bundle_app/model/article_model.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../core/extensions/theme_extension.dart';
+import '../../core/theme/app_texts.dart';
 
 class FeaturedSportsBanner extends StatelessWidget {
   final Article article;
   final VoidCallback onTap;
 
   const FeaturedSportsBanner({
-    Key? key,
+    super.key,
     required this.article,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -31,14 +33,16 @@ class FeaturedSportsBanner extends StatelessWidget {
                 imageUrl: article.urlToImage ?? '',
                 fit: BoxFit.cover,
                 placeholder: (context, url) => Container(
-                  color: Colors.grey[900],
-                  child: const Center(
-                    child: CircularProgressIndicator(),
+                  color: context.cardColor,
+                  child: Center(
+                    child: CircularProgressIndicator(
+                      color: context.primaryColor,
+                    ),
                   ),
                 ),
                 errorWidget: (context, url, error) => Container(
-                  color: Colors.grey[900],
-                  child: const Icon(Icons.error, color: Colors.white),
+                  color: context.cardColor,
+                  child: Icon(Icons.error, color: context.textColor),
                 ),
               ),
             ),
@@ -67,11 +71,9 @@ class FeaturedSportsBanner extends StatelessWidget {
                 children: [
                   Text(
                     article.title ?? '',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18.sp,
+                    style: AppTextStyles.h2.copyWith(
+                      color: context.whiteColor,
                       fontWeight: FontWeight.bold,
-                      height: 1.3,
                     ),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
@@ -80,17 +82,16 @@ class FeaturedSportsBanner extends StatelessWidget {
                   Row(
                     children: [
                       Text(
-                        article.source?.toUpperCase() ?? '',
-                        style: TextStyle(
-                          color: Colors.white.withOpacity(0.8),
-                          fontSize: 12.sp,
+                        article.source.toUpperCase() ?? '',
+                        style: AppTextStyles.caption.copyWith(
+                          color: context.whiteColor.withOpacity(0.8),
                           letterSpacing: 0.5,
                         ),
                       ),
                       const Spacer(),
                       Icon(
                         Icons.arrow_forward,
-                        color: Colors.white,
+                        color: context.whiteColor,
                         size: 20.sp,
                       ),
                     ],
