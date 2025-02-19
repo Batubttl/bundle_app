@@ -1,78 +1,51 @@
 import 'dart:async';
 
-import 'package:bundle_app/core/network/api_client.dart';
-import 'package:bundle_app/services/news_service.dart';
-import 'package:bundle_app/services/notifications_service.dart';
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import '../../model/notification_model.dart';
+import '../../model/article_model.dart';
+import '../../services/news_service.dart';
+import '../../core/constants/app_constants.dart';
 
 class NotificationsViewModel extends ChangeNotifier {
-  final NotificationService _notificationService = NotificationService();
+  final NewsService _newsService;
   bool isLoading = true;
-  List<NotificationModel> notifications = [];
+  List<Article> notifications = [];
   String? error;
-  StreamSubscription<List<NotificationModel>>? _notificationsSubscription;
+  StreamSubscription<List<Article>>? _notificationsSubscription;
 
-  NotificationsViewModel() {
-    _initNotifications();
+  NotificationsViewModel(this._newsService) {
+    _loadTechnologyNews();
   }
 
-  void _initNotifications() {
+  Future<void> _loadTechnologyNews() async {
     try {
-      print('Bildirimler yükleniyor...'); // Debug log
+      isLoading = true;
+      notifyListeners();
 
-      // Stream'i dinlemeye başla
-      _notificationsSubscription?.cancel();
+      // Teknoloji haberlerini al
+      final articles =
+          await _newsService.getNewsByCategory(NewsCategory.teknoloji);
+      notifications = articles;
 
-      _notificationsSubscription =
-          _notificationService.getNotifications().listen(
-        (updatedNotifications) {
-          notifications = updatedNotifications;
-          isLoading = false;
-          print('${notifications.length} bildirim yüklendi'); // Debug log
-          notifyListeners();
-        },
-        onError: (e) {
-          error = 'Bildirimler yüklenirken hata oluştu: $e';
-          isLoading = false;
-          print('Hata: $error'); // Debug log
-          notifyListeners();
-        },
-      );
-    } catch (e) {
-      error = 'Bildirimler başlatılırken hata oluştu: $e';
       isLoading = false;
-      print('Hata: $error'); // Debug log
+      notifyListeners();
+    } catch (e) {
+      error = 'Haberler yüklenirken hata oluştu: $e';
+      isLoading = false;
       notifyListeners();
     }
   }
 
-  Future<void> markAsRead(String notificationId) async {
-    try {
-      await _notificationService.markAsRead(notificationId);
-      print('Bildirim okundu olarak işaretlendi: $notificationId'); // Debug log
-    } catch (e) {
-      print('Bildirim işaretlenirken hata: $e'); // Debug log
-    }
+  Future<void> refreshNotifications() async {
+    await _loadTechnologyNews();
   }
 
-  Future<void> refreshNotifications() async {
-    _initNotifications();
+  void markAsRead(String articleUrl) {
+    // İleride okundu işaretleme özelliği eklenebilir
   }
 
   void clearAll() {
     notifications.clear();
     notifyListeners();
-  }
-
-  Future<void> addTestNotifications() async {
-    try {
-      await _notificationService.createNotificationsFromNews();
-      print('Test bildirimleri eklendi'); // Debug log
-    } catch (e) {
-      print('Test bildirimleri eklenirken hata: $e'); // Debug log
-    }
   }
 
   @override

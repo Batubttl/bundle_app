@@ -14,17 +14,18 @@ class StoryViewModel extends ChangeNotifier {
   Article get currentStory => stories[_currentIndex];
   bool get isFirstStory => _currentIndex == 0;
   bool get isLastStory => _currentIndex == stories.length - 1;
+  bool get hasStories => stories.isNotEmpty;
 
   // Story'ler arası geçiş
   void nextStory() {
-    if (!isLastStory) {
+    if (_currentIndex < stories.length - 1) {
       _currentIndex++;
       notifyListeners();
     }
   }
 
   void previousStory() {
-    if (!isFirstStory) {
+    if (_currentIndex > 0) {
       _currentIndex--;
       notifyListeners();
     }

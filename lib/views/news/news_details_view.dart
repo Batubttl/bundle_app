@@ -3,6 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../model/article_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import '../../core/extensions/theme_extension.dart';
+import '../../core/theme/app_texts.dart';
 
 class NewsDetailView extends StatelessWidget {
   final Article article;
@@ -17,29 +19,29 @@ class NewsDetailView extends StatelessWidget {
     if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
       throw Exception('URL açılamadı: $url');
     }
-    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: context.backgroundColor,
       appBar: AppBar(
-        backgroundColor: Colors.black,
+        backgroundColor: context.cardColor,
         leading: IconButton(
-          icon: const Icon(Icons.close, color: Colors.white),
+          icon: Icon(Icons.close, color: context.textColor),
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          article.source.toUpperCase() ?? '',
-          style: const TextStyle(color: Colors.white),
+          article.source.toUpperCase(),
+          style: AppTextStyles.h2.copyWith(color: context.textColor),
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.open_in_browser, color: Colors.white),
+            icon: Icon(Icons.open_in_browser, color: context.textColor),
             onPressed: _launchURL,
           ),
           IconButton(
-            icon: const Icon(Icons.more_horiz, color: Colors.white),
+            icon: Icon(Icons.more_horiz, color: context.textColor),
             onPressed: () {
               // Menü açma fonksiyonu
             },
@@ -57,18 +59,18 @@ class NewsDetailView extends StatelessWidget {
                 height: 250.h,
                 fit: BoxFit.cover,
                 placeholder: (context, url) => Container(
-                  color: Colors.grey[900],
+                  color: context.backgroundColor,
                   child: Center(
                     child: CircularProgressIndicator(
-                      color: Colors.red,
+                      color: context.primaryColor,
                     ),
                   ),
                 ),
                 errorWidget: (context, url, error) => Container(
-                  color: Colors.grey[900],
+                  color: context.cardColor,
                   child: Icon(
                     Icons.error_outline,
-                    color: Colors.red,
+                    color: context.primaryColor,
                     size: 32.sp,
                   ),
                 ),
@@ -80,10 +82,8 @@ class NewsDetailView extends StatelessWidget {
                 children: [
                   Text(
                     article.title ?? '',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 24.sp,
-                      fontWeight: FontWeight.bold,
+                    style: AppTextStyles.h1.copyWith(
+                      color: context.textColor,
                     ),
                   ),
                   SizedBox(height: 8.h),
@@ -91,17 +91,15 @@ class NewsDetailView extends StatelessWidget {
                     children: [
                       Text(
                         article.source ?? '',
-                        style: TextStyle(
-                          color: Colors.grey,
-                          fontSize: 14.sp,
+                        style: AppTextStyles.caption.copyWith(
+                          color: context.secondaryColor,
                         ),
                       ),
                       SizedBox(width: 8.w),
                       Text(
                         '• ${article.publishedAt ?? ''}',
-                        style: TextStyle(
-                          color: Colors.grey,
-                          fontSize: 14.sp,
+                        style: AppTextStyles.caption.copyWith(
+                          color: context.secondaryColor,
                         ),
                       ),
                     ],
@@ -109,9 +107,8 @@ class NewsDetailView extends StatelessWidget {
                   SizedBox(height: 16.h),
                   Text(
                     article.content ?? article.description ?? '',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16.sp,
+                    style: AppTextStyles.body.copyWith(
+                      color: context.textColor,
                       height: 1.5,
                     ),
                   ),
@@ -126,8 +123,7 @@ class NewsDetailView extends StatelessWidget {
                       ),
                       decoration: BoxDecoration(
                         border: Border.all(
-                          // ignore: deprecated_member_use
-                          color: Colors.white.withOpacity(1),
+                          color: context.textColor.withOpacity(0.5),
                           width: 1,
                         ),
                         borderRadius: BorderRadius.circular(8),
@@ -137,16 +133,14 @@ class NewsDetailView extends StatelessWidget {
                         children: [
                           Text(
                             'SİTEYE GİT',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16.sp,
-                              fontWeight: FontWeight.w500,
+                            style: AppTextStyles.button.copyWith(
+                              color: context.textColor,
                               letterSpacing: 1,
                             ),
                           ),
                           Icon(
                             Icons.arrow_forward,
-                            color: Colors.white,
+                            color: context.textColor,
                             size: 24.sp,
                           ),
                         ],
@@ -162,30 +156,30 @@ class NewsDetailView extends StatelessWidget {
       ),
       bottomNavigationBar: Container(
         padding: EdgeInsets.all(16.w),
-        color: Colors.black,
+        color: context.cardColor,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             IconButton(
-              icon: const Icon(Icons.format_size, color: Colors.white),
+              icon: Icon(Icons.format_size, color: context.textColor),
               onPressed: () {
                 // Font boyutu ayarlama
               },
             ),
             IconButton(
-              icon: const Icon(Icons.favorite_border, color: Colors.white),
+              icon: Icon(Icons.favorite_border, color: context.textColor),
               onPressed: () {
                 // Favorilere ekleme
               },
             ),
             IconButton(
-              icon: const Icon(Icons.share, color: Colors.white),
+              icon: Icon(Icons.share, color: context.textColor),
               onPressed: () {
                 // Paylaşma fonksiyonu
               },
             ),
             IconButton(
-              icon: const Icon(Icons.bookmark_border, color: Colors.white),
+              icon: Icon(Icons.bookmark_border, color: context.textColor),
               onPressed: () {
                 // Kaydetme fonksiyonu
               },

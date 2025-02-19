@@ -5,7 +5,7 @@ import '../../services/news_service.dart';
 import 'package:get_it/get_it.dart';
 
 class FeaturedViewModel extends ChangeNotifier {
-  final NewsService _newsService = GetIt.I<NewsService>();
+  final NewsService _newsService;
 
   Map<NewsCategory, List<Article>> _categoryArticles = {};
   Article? _latestSportsArticle;
@@ -18,7 +18,8 @@ class FeaturedViewModel extends ChangeNotifier {
   Article? get latestSportsArticle => _latestSportsArticle;
   List<Article> get articles => _categoryArticles[NewsCategory.tumu] ?? [];
 
-  FeaturedViewModel() {
+  FeaturedViewModel({required NewsService newsService})
+      : _newsService = newsService {
     _initializeData();
   }
 

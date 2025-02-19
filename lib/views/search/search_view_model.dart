@@ -7,7 +7,7 @@ class SearchViewModel extends ChangeNotifier {
   List<Article> articles = [];
   bool _isLoading = false;
   String? _error;
-  String _searchQuery = '';
+  final String _searchQuery = '';
 
   SearchViewModel(this._newsService);
 

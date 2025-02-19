@@ -8,9 +8,11 @@ import '../../views/search/search_view_model.dart';
 final locator = GetIt.instance;
 
 void setupLocator() {
-  // Singleton Services
-  locator.registerLazySingleton(() => ApiClient());
-  locator.registerLazySingleton(() => NewsService(locator()));
+  // Singleton olarak ApiClient'ı kaydet
+  GetIt.I.registerLazySingleton(() => ApiClient());
+
+  // NewsService'i ApiClient bağımlılığıyla kaydet
+  GetIt.I.registerLazySingleton(() => NewsService(GetIt.I<ApiClient>()));
   locator.registerLazySingleton(() => NavigationController());
 
   // ViewModels
