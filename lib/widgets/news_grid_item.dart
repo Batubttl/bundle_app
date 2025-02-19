@@ -2,6 +2,8 @@ import 'package:bundle_app/model/article_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../core/extensions/date_time_extension.dart';
+import '../core/extensions/theme_extension.dart';
+import '../core/theme/app_texts.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 class NewsGridItem extends StatelessWidget {
@@ -27,13 +29,12 @@ class NewsGridItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: const Color.fromARGB(255, 20, 20, 21),
+        color: context.cardColor,
         borderRadius: BorderRadius.circular(16.r),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Haber Resmi
           ClipRRect(
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(16.r),
@@ -45,57 +46,45 @@ class NewsGridItem extends StatelessWidget {
                 imageUrl: article.urlToImage ?? '',
                 fit: BoxFit.cover,
                 errorWidget: (context, url, error) => Container(
-                  color: Colors.grey[900],
+                  color: context.cardColor,
                   child: Icon(
                     Icons.error_outline,
-                    color: Colors.red,
+                    color: context.primaryColor,
                     size: 32.sp,
                   ),
                 ),
               ),
             ),
           ),
-
-          // İçerik Kısmı
           Padding(
             padding: EdgeInsets.all(16.w),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Kaynak
                 Text(
                   article.source,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 12,
-                    fontStyle: FontStyle.normal,
+                  style: AppTextStyles.caption.copyWith(
+                    color: context.textColor,
                     fontWeight: FontWeight.bold,
                     letterSpacing: -1,
                   ),
                 ),
                 SizedBox(height: 8),
-
-                // Başlık
                 Text(
                   article.title ?? '',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: isFeatured ? 22.sp : 20.sp,
-                    fontWeight: FontWeight.w600,
+                  style: (isFeatured ? AppTextStyles.h1 : AppTextStyles.h2)
+                      .copyWith(
+                    color: context.textColor,
                     height: 1.2,
                     letterSpacing: -1,
                   ),
-                  maxLines: isFeatured ? 8 : 8,
-                  overflow: TextOverflow.ellipsis,
+                  maxLines: isFeatured ? 16 : 8,
                 ),
                 SizedBox(height: 12.h),
-
-                // Zaman
                 Text(
                   _getTimeAgo(),
-                  style: TextStyle(
-                    color: Colors.grey[600],
-                    fontSize: 13.sp,
+                  style: AppTextStyles.caption.copyWith(
+                    color: context.secondaryColor,
                   ),
                 ),
               ],

@@ -12,11 +12,11 @@ class StoryView extends StatelessWidget {
   final Color categoryColor;
 
   const StoryView({
-    Key? key,
+    super.key,
     required this.stories,
     required this.categoryTitle,
     required this.categoryColor,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -35,10 +35,10 @@ class _StoryViewContent extends StatelessWidget {
   final Color categoryColor;
 
   const _StoryViewContent({
-    Key? key,
+    super.key,
     required this.categoryTitle,
     required this.categoryColor,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +71,10 @@ class _StoryViewContent extends StatelessWidget {
                           margin: EdgeInsets.symmetric(horizontal: 2.w),
                           color: viewModel.currentIndex >= index
                               ? Colors.white
-                              : Colors.white.withOpacity(0.3),
+                              : Theme.of(context)
+                                  .colorScheme
+                                  .onBackground
+                                  .withOpacity(0.3),
                         ),
                       ),
                     ),
@@ -113,11 +116,11 @@ class _StoryContent extends StatelessWidget {
   final Color categoryColor;
 
   const _StoryContent({
-    Key? key,
+    super.key,
     required this.story,
     required this.categoryTitle,
     required this.categoryColor,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

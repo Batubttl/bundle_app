@@ -11,6 +11,9 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../widgets/drawer_widget.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import '../news/news_details_view.dart';
+import 'package:bundle_app/core/extensions/theme_extension.dart';
+import 'package:bundle_app/core/theme/app_texts.dart';
+import 'package:get_it/get_it.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
@@ -18,7 +21,7 @@ class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => HomeViewModel(NewsService(ApiClient())),
+      create: (context) => HomeViewModel(GetIt.I<NewsService>()),
       child: const _HomeViewContent(),
     );
   }
@@ -38,7 +41,7 @@ class _HomeViewContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<HomeViewModel>(
       builder: (context, viewModel, child) => Scaffold(
-        backgroundColor: Colors.black,
+        backgroundColor: context.backgroundColor,
         drawer: const DrawerWidget(),
         body: SafeArea(
           child: Column(
@@ -50,6 +53,8 @@ class _HomeViewContent extends StatelessWidget {
               Expanded(
                 child: RefreshIndicator(
                   onRefresh: viewModel.refreshNews,
+                  color: context.primaryColor,
+                  backgroundColor: context.backgroundColor,
                   child: NotificationListener<ScrollNotification>(
                     onNotification: (ScrollNotification scrollInfo) {
                       if (scrollInfo is ScrollEndNotification &&
@@ -60,7 +65,11 @@ class _HomeViewContent extends StatelessWidget {
                       return true;
                     },
                     child: viewModel.isLoading && viewModel.articles.isEmpty
-                        ? const Center(child: CircularProgressIndicator())
+                        ? Center(
+                            child: CircularProgressIndicator(
+                              color: context.primaryColor,
+                            ),
+                          )
                         : SingleChildScrollView(
                             child: Column(
                               children: [
@@ -99,6 +108,13 @@ class _HomeViewContent extends StatelessWidget {
                                     },
                                   ),
                                 ),
+                                if (viewModel.isLoadingMore)
+                                  Padding(
+                                    padding: EdgeInsets.all(16.w),
+                                    child: CircularProgressIndicator(
+                                      color: context.primaryColor,
+                                    ),
+                                  ),
                               ],
                             ),
                           ),

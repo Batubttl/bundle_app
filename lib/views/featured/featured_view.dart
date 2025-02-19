@@ -1,16 +1,20 @@
-import 'package:bundle_app/core/network/api_client.dart';
+import 'package:bundle_app/widgets/drawer_widget.dart';
 import 'package:bundle_app/widgets/featured_sports_banner.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:provider/provider.dart';
 import '../../model/article_model.dart';
-import '../../services/news_service.dart';
 import '../news/news_details_view.dart';
 import '../../core/utils/date_formatter.dart';
 import 'featured_view_model.dart';
 import '../story/story_view.dart';
 import '../story/story_view_model.dart';
+import '../../core/extensions/theme_extension.dart';
+import '../../core/theme/app_texts.dart';
+import '../../widgets/custom_app_bar.dart';
+import 'package:get_it/get_it.dart';
+import '../../services/news_service.dart';
 
 class FeaturedView extends StatelessWidget {
   const FeaturedView({super.key});
@@ -20,12 +24,12 @@ class FeaturedView extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (context) => FeaturedViewModel(),
+          create: (context) => FeaturedViewModel(newsService: GetIt.I<NewsService>()),
         ),
-        ChangeNotifierProvider(
-          create: (context) => StoryViewModel(
-            stories: context.read<FeaturedViewModel>().getFeaturedStories(),
-          ),
+        ChangeNotifierProxyProvider<FeaturedViewModel, StoryViewModel>(
+          create: (context) => StoryViewModel(stories: []),
+          update: (context, featuredViewModel, previous) =>
+              StoryViewModel(stories: featuredViewModel.getFeaturedStories()),
         ),
       ],
       child: const _FeaturedViewContent(),
@@ -34,23 +38,28 @@ class FeaturedView extends StatelessWidget {
 }
 
 class _FeaturedViewContent extends StatelessWidget {
-  const _FeaturedViewContent({Key? key}) : super(key: key);
+  const _FeaturedViewContent({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Consumer<FeaturedViewModel>(
       builder: (context, viewModel, child) => Scaffold(
-        backgroundColor: Colors.black,
+        drawer: const DrawerWidget(),
+        backgroundColor: context.backgroundColor,
         body: SafeArea(
           child: Consumer<FeaturedViewModel>(
             builder: (context, viewModel, child) {
               if (viewModel.isLoading) {
-                return const Center(child: CircularProgressIndicator());
+                return Center(
+                  child: CircularProgressIndicator(
+                    color: context.primaryColor,
+                  ),
+                );
               }
 
               return CustomScrollView(
                 slivers: [
-                  _buildAppBar(),
+                  _buildAppBar(context),
                   _buildBundleSpecial(context, viewModel),
                   _buildNewsList(viewModel),
                 ],
@@ -73,9 +82,8 @@ class _FeaturedViewContent extends StatelessWidget {
             padding: EdgeInsets.only(left: 16.w, top: 16.h, bottom: 12.h),
             child: Text(
               'BUNDLE ÖZEL',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 16.sp,
+              style: AppTextStyles.h2.copyWith(
+                color: context.textColor,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -83,7 +91,7 @@ class _FeaturedViewContent extends StatelessWidget {
 
           // Story Items
           SizedBox(
-            height: 90.h,
+            height: 100.h,
             child: ListView(
               scrollDirection: Axis.horizontal,
               padding: EdgeInsets.symmetric(horizontal: 16.w),
@@ -131,10 +139,8 @@ class _FeaturedViewContent extends StatelessWidget {
             padding: EdgeInsets.only(left: 16.w, top: 8.h, bottom: 8.h),
             child: Text(
               'Popüler',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 20.sp,
-                fontWeight: FontWeight.bold,
+              style: AppTextStyles.h1.copyWith(
+                color: context.textColor,
               ),
             ),
           ),
@@ -201,23 +207,26 @@ class _FeaturedViewContent extends StatelessWidget {
                         },
                         errorBuilder: (context, error, stackTrace) {
                           return Center(
-                            child: Icon(Icons.image_not_supported,
-                                color: Colors.grey[700]),
+                            child: Icon(
+                              Icons.image_not_supported,
+                              color: context.secondaryColor,
+                            ),
                           );
                         },
                       )
                     : Center(
-                        child: Icon(Icons.image_not_supported,
-                            color: Colors.grey[700]),
+                        child: Icon(
+                          Icons.image_not_supported,
+                          color: context.secondaryColor,
+                        ),
                       ),
               ),
             ),
             SizedBox(height: 4.h),
             Text(
               title,
-              style: TextStyle(
-                color: Colors.grey[400],
-                fontSize: 12.sp,
+              style: AppTextStyles.caption.copyWith(
+                color: context.secondaryColor,
               ),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
@@ -256,18 +265,16 @@ class _FeaturedViewContent extends StatelessWidget {
                         Text(
                           DateFormatter.formatSource(article.source)
                               .toUpperCase(),
-                          style: TextStyle(
-                            color: Colors.grey[400],
-                            fontSize: 12.sp,
+                          style: AppTextStyles.caption.copyWith(
+                            color: context.secondaryColor,
                             letterSpacing: 0.5,
                           ),
                         ),
                         SizedBox(height: 8.h),
                         Text(
                           article.title ?? '',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16.sp,
+                          style: AppTextStyles.body.copyWith(
+                            color: context.textColor,
                             fontWeight: FontWeight.w500,
                             height: 1.3,
                           ),
@@ -288,11 +295,12 @@ class _FeaturedViewContent extends StatelessWidget {
                           imageUrl: article.urlToImage!,
                           fit: BoxFit.cover,
                           placeholder: (context, url) => Container(
-                            color: Colors.grey[900],
+                            color: context.cardColor,
                           ),
-                          errorWidget: (context, url, error) => Container(
-                            color: Colors.grey[900],
-                            child: Icon(Icons.error, color: Colors.white),
+                          errorWidget: (context, error, stackTrace) =>
+                              Container(
+                            color: context.cardColor,
+                            child: Icon(Icons.error, color: context.textColor),
                           ),
                         ),
                       ),
@@ -307,34 +315,25 @@ class _FeaturedViewContent extends StatelessWidget {
     );
   }
 
-  Widget _buildAppBar() {
-    return SliverAppBar(
-      floating: true,
-      backgroundColor: Colors.black,
-      title: Text(
-        'ÖNE ÇIKANLAR',
-        style: TextStyle(
-          color: Colors.white,
-          fontSize: 18.sp,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
-      leading: IconButton(
-        icon: Icon(Icons.menu, size: 24.sp),
-        onPressed: () {},
-      ),
-      actions: [
-        TextButton(
-          onPressed: () {},
-          child: Text(
-            'TR ▼',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 14.sp,
+  Widget _buildAppBar(BuildContext context) {
+    return SliverToBoxAdapter(
+      child: CustomAppBar(
+        title: 'ÖNE ÇIKANLAR',
+        centerTitle: true,
+        showBackButton: false,
+        leading: const DrawerWidget(isDrawerButton: true),
+        actions: [
+          TextButton(
+            onPressed: () {},
+            child: Text(
+              'TR ▼',
+              style: AppTextStyles.button.copyWith(
+                color: context.textColor,
+              ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

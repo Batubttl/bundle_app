@@ -1,10 +1,16 @@
+import 'package:bundle_app/core/extensions/theme_extension.dart';
 import 'package:bundle_app/model/notification_model.dart';
+import 'package:bundle_app/services/notifications_service.dart';
 import 'package:bundle_app/widgets/custom_app_bar.dart';
 import 'package:bundle_app/widgets/drawer_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import '../../core/theme/app_texts.dart';
 import 'notifications_view_model.dart';
+import 'package:get_it/get_it.dart';
+import '../../model/article_model.dart';
+import '../../services/news_service.dart';
 
 class NotificationsView extends StatelessWidget {
   const NotificationsView({super.key});
@@ -12,57 +18,61 @@ class NotificationsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => NotificationsViewModel(),
-      child: Consumer<NotificationsViewModel>(
-        builder: (context, viewModel, child) {
-          return Scaffold(
-            drawer: const DrawerWidget(),
-            backgroundColor: Colors.black,
-            appBar: CustomAppBar(
-              title: 'BİLDİRİMLER',
-              centerTitle: true,
-              showBackButton: false,
-              leading: Builder(
-                builder: (BuildContext context) => IconButton(
-                  icon: Icon(Icons.menu, color: Colors.white, size: 24.sp),
-                  onPressed: () => Scaffold.of(context).openDrawer(),
-                ),
-              ),
-              actions: [
-                IconButton(
-                  icon: Icon(Icons.settings, color: Colors.white, size: 24.sp),
-                  onPressed: () {
-                    // Ayarlar işlevi
-                  },
-                ),
-              ],
-            ),
-            body: _buildBody(viewModel),
-          );
-        },
-      ),
+      create: (context) => NotificationsViewModel(GetIt.I<NewsService>()),
+      child: const _NotificationsViewContent(),
+    );
+  }
+}
+
+class _NotificationsViewContent extends StatelessWidget {
+  const _NotificationsViewContent({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<NotificationsViewModel>(
+      builder: (context, viewModel, child) {
+        return Scaffold(
+          drawer: const DrawerWidget(),
+          backgroundColor: context.backgroundColor,
+          appBar: CustomAppBar(
+            title: 'BİLDİRİMLER',
+            centerTitle: true,
+            showBackButton: false,
+            leading: const DrawerWidget(isDrawerButton: true),
+          ),
+          body: _buildBody(viewModel, context),
+        );
+      },
     );
   }
 
-  Widget _buildBody(NotificationsViewModel viewModel) {
+  Widget _buildBody(NotificationsViewModel viewModel, BuildContext context) {
     if (viewModel.isLoading) {
-      return const Center(child: CircularProgressIndicator());
+      return Center(
+        child: CircularProgressIndicator(
+          color: context.primaryColor,
+        ),
+      );
     }
 
     if (viewModel.error != null) {
       return Center(
         child: Text(
           viewModel.error!,
-          style: const TextStyle(color: Colors.red),
+          style: AppTextStyles.body.copyWith(
+            color: context.primaryColor,
+          ),
         ),
       );
     }
 
     if (viewModel.notifications.isEmpty) {
-      return const Center(
+      return Center(
         child: Text(
           'Bildirim bulunmuyor',
-          style: TextStyle(color: Colors.white),
+          style: AppTextStyles.body.copyWith(
+            color: context.textColor,
+          ),
         ),
       );
     }
@@ -70,10 +80,19 @@ class NotificationsView extends StatelessWidget {
     return ListView.builder(
       itemCount: viewModel.notifications.length,
       itemBuilder: (context, index) {
-        final notification = viewModel.notifications[index];
+        final article = viewModel.notifications[index];
         return NotificationCard(
-          notification: notification,
-          onTap: () => viewModel.markAsRead(notification.id),
+          notification: NotificationModel(
+            id: article.url,
+            title: article.title,
+            message: article.description ?? '',
+            category: article.category.toString(),
+            timestamp: DateTime.parse(article.publishedAt),
+            isRead: false,
+            source: article.source,
+            sourceImageUrl: article.urlToImage ?? '',
+          ),
+          onTap: () => viewModel.markAsRead(article.url),
         );
       },
     );
@@ -107,12 +126,11 @@ class NotificationCard extends StatelessWidget {
               children: [
                 // Sol taraf - Saat
                 SizedBox(
-                  width: 45.w,
+                  width: 60.w,
                   child: Text(
                     _formatTime(notification.timestamp),
-                    style: TextStyle(
-                      color: Colors.grey[600],
-                      fontSize: 24.sp,
+                    style: AppTextStyles.h2.copyWith(
+                      color: context.secondaryColor,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -139,9 +157,8 @@ class NotificationCard extends StatelessWidget {
                           // Kaynak adı
                           Text(
                             notification.source,
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 14.sp,
+                            style: AppTextStyles.body.copyWith(
+                              color: context.textColor,
                             ),
                           ),
                         ],
@@ -151,9 +168,8 @@ class NotificationCard extends StatelessWidget {
                       // Başlık
                       Text(
                         notification.title,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16.sp,
+                        style: AppTextStyles.body.copyWith(
+                          color: context.textColor,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -164,26 +180,23 @@ class NotificationCard extends StatelessWidget {
                         children: [
                           Text(
                             notification.category,
-                            style: TextStyle(
-                              color: Colors.grey[600],
-                              fontSize: 12.sp,
+                            style: AppTextStyles.caption.copyWith(
+                              color: context.secondaryColor,
                             ),
                           ),
                           Padding(
                             padding: EdgeInsets.symmetric(horizontal: 4.w),
                             child: Text(
                               '•',
-                              style: TextStyle(
-                                color: Colors.grey[600],
-                                fontSize: 12.sp,
+                              style: AppTextStyles.caption.copyWith(
+                                color: context.secondaryColor,
                               ),
                             ),
                           ),
                           Text(
                             '14 Şubat',
-                            style: TextStyle(
-                              color: Colors.grey[600],
-                              fontSize: 12.sp,
+                            style: AppTextStyles.caption.copyWith(
+                              color: context.secondaryColor,
                             ),
                           ),
                         ],

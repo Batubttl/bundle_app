@@ -1,6 +1,10 @@
 import 'package:bundle_app/views/auth/welcome_view.dart';
+import 'package:bundle_app/views/settings_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../core/extensions/theme_extension.dart';
+import '../core/theme/app_texts.dart';
+import '../core/theme/app_colors.dart';
 
 class DrawerWidget extends StatelessWidget {
   final bool isDrawerButton;
@@ -15,7 +19,11 @@ class DrawerWidget extends StatelessWidget {
     if (isDrawerButton) {
       return Builder(
         builder: (BuildContext context) => IconButton(
-          icon: Icon(Icons.menu, color: Colors.white, size: 24.sp),
+          icon: Icon(Icons.menu,
+              color: Theme.of(context).brightness == Brightness.dark
+                  ? AppColors.white
+                  : AppColors.black,
+              size: 24.sp),
           onPressed: () => Scaffold.of(context).openDrawer(),
         ),
       );
@@ -24,7 +32,7 @@ class DrawerWidget extends StatelessWidget {
     return Drawer(
       child: Container(
         width: MediaQuery.of(context).size.width * 0.75,
-        color: Colors.black,
+        color: context.backgroundColor,
         child: SafeArea(
           child: Column(
             children: [
@@ -37,7 +45,7 @@ class DrawerWidget extends StatelessWidget {
                     Row(
                       children: [
                         CircleAvatar(
-                          backgroundColor: Colors.red,
+                          backgroundColor: context.primaryColor,
                           radius: 20.r,
                           child: IconButton(
                             onPressed: () {
@@ -48,16 +56,15 @@ class DrawerWidget extends StatelessWidget {
                                 ),
                               );
                             },
-                            icon: const Icon(Icons.arrow_forward,
-                                color: Colors.white),
+                            icon: Icon(Icons.arrow_forward,
+                                color: AppColors.white),
                           ),
                         ),
                         SizedBox(width: 12.w),
                         Text(
                           'Giriş Yap',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16.sp,
+                          style: AppTextStyles.body.copyWith(
+                            color: context.textColor,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
@@ -65,14 +72,22 @@ class DrawerWidget extends StatelessWidget {
                     ),
                     IconButton(
                       icon: Icon(Icons.settings,
-                          color: Colors.white, size: 24.sp),
-                      onPressed: () {},
+                          color: context.textColor, size: 24.sp),
+                      onPressed: () {
+                        Navigator.pop(context);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const SettingsView(),
+                          ),
+                        );
+                      },
                     ),
                   ],
                 ),
               ),
 
-              // Dolar Kuru ve Hava Durumu aynı kalacak
+              // Dolar Kuru ve Hava Durumu
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
                 child: Row(
@@ -80,21 +95,20 @@ class DrawerWidget extends StatelessWidget {
                   children: [
                     Text(
                       '35,958 USD',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16.sp,
+                      style: AppTextStyles.body.copyWith(
+                        color: context.textColor,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     Row(
                       children: [
-                        Icon(Icons.cloud, color: Colors.white, size: 20.sp),
+                        Icon(Icons.cloud,
+                            color: context.textColor, size: 20.sp),
                         SizedBox(width: 4.w),
                         Text(
                           '6° ANKARA',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 14.sp,
+                          style: AppTextStyles.caption.copyWith(
+                            color: context.textColor,
                           ),
                         ),
                       ],
@@ -105,30 +119,29 @@ class DrawerWidget extends StatelessWidget {
 
               SizedBox(height: 20.h),
 
-              // Kategoriler kısmını TextButton'lara dönüştürüyoruz
+              // Kategoriler
               Expanded(
                 child: Column(
                   children: [
                     Column(
                       children: [
-                        _buildCategoryButton('TÜMÜ', '19'),
-                        _buildCategoryButton('BİLİM', '6'),
-                        _buildCategoryButton('TEKNOLOJİ', '4'),
-                        _buildCategoryButton('EĞLENCE', '1'),
-                        _buildCategoryButton('GÜNDEM', '8'),
+                        _buildCategoryButton(context, 'TÜMÜ', '19'),
+                        _buildCategoryButton(context, 'BİLİM', '6'),
+                        _buildCategoryButton(context, 'TEKNOLOJİ', '4'),
+                        _buildCategoryButton(context, 'EĞLENCE', '1'),
+                        _buildCategoryButton(context, 'GÜNDEM', '8'),
                       ],
                     ),
                     const Spacer(),
-                    // Alt kısım aynı kalacak
                     Padding(
                       padding: EdgeInsets.all(16.w),
                       child: Column(
                         children: [
                           _buildBottomItem(
-                              Icons.add_circle_outline, 'Kaynak Ekle'),
+                              context, Icons.add_circle_outline, 'Kaynak Ekle'),
                           SizedBox(height: 16.h),
                           _buildBottomItem(
-                              Icons.bookmark_border, 'Kaydedilenler'),
+                              context, Icons.bookmark_border, 'Kaydedilenler'),
                           SizedBox(height: 16.h),
                         ],
                       ),
@@ -143,8 +156,8 @@ class DrawerWidget extends StatelessWidget {
     );
   }
 
-  // Yeni kategori butonu widget'ı
-  Widget _buildCategoryButton(String title, String count) {
+  Widget _buildCategoryButton(
+      BuildContext context, String title, String count) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
       child: TextButton(
@@ -161,9 +174,8 @@ class DrawerWidget extends StatelessWidget {
           children: [
             Text(
               title,
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 14.sp,
+              style: AppTextStyles.body.copyWith(
+                color: context.textColor,
                 fontWeight: FontWeight.w500,
               ),
             ),
@@ -171,14 +183,15 @@ class DrawerWidget extends StatelessWidget {
               children: [
                 Text(
                   '($count)',
-                  style: TextStyle(
-                    color: title == 'TÜMÜ' ? Colors.red : Colors.white,
-                    fontSize: 14.sp,
+                  style: AppTextStyles.body.copyWith(
+                    color: title == 'TÜMÜ'
+                        ? context.primaryColor
+                        : context.textColor,
                   ),
                 ),
                 if (title != 'TÜMÜ')
                   Icon(Icons.keyboard_arrow_down,
-                      color: Colors.white, size: 24.sp),
+                      color: context.textColor, size: 24.sp),
               ],
             ),
           ],
@@ -187,16 +200,15 @@ class DrawerWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildBottomItem(IconData icon, String text) {
+  Widget _buildBottomItem(BuildContext context, IconData icon, String text) {
     return Row(
       children: [
-        Icon(icon, color: Colors.white, size: 24.sp),
+        Icon(icon, color: context.textColor, size: 24.sp),
         SizedBox(width: 12.w),
         Text(
           text,
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 14.sp,
+          style: AppTextStyles.body.copyWith(
+            color: context.textColor,
           ),
         ),
       ],
