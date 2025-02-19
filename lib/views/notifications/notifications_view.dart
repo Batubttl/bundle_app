@@ -1,6 +1,4 @@
 import 'package:bundle_app/core/extensions/theme_extension.dart';
-import 'package:bundle_app/model/notification_model.dart';
-import 'package:bundle_app/services/notifications_service.dart';
 import 'package:bundle_app/widgets/custom_app_bar.dart';
 import 'package:bundle_app/widgets/drawer_widget.dart';
 import 'package:flutter/material.dart';
@@ -69,7 +67,7 @@ class _NotificationsViewContent extends StatelessWidget {
     if (viewModel.notifications.isEmpty) {
       return Center(
         child: Text(
-          'Bildirim bulunmuyor',
+          'Haber bulunmuyor',
           style: AppTextStyles.body.copyWith(
             color: context.textColor,
           ),
@@ -81,46 +79,21 @@ class _NotificationsViewContent extends StatelessWidget {
       itemCount: viewModel.notifications.length,
       itemBuilder: (context, index) {
         final article = viewModel.notifications[index];
-        return NotificationCard(
-          notification: NotificationModel(
-            id: article.url,
-            title: article.title,
-            message: article.description ?? '',
-            category: article.category.toString(),
-            timestamp: DateTime.parse(article.publishedAt),
-            isRead: false,
-            source: article.source,
-            sourceImageUrl: article.urlToImage ?? '',
-          ),
-          onTap: () => viewModel.markAsRead(article.url),
-        );
+        return _buildNotificationCard(article, context, viewModel);
       },
     );
   }
-}
 
-// Bildirim kartı widget'ı
-class NotificationCard extends StatelessWidget {
-  final NotificationModel notification;
-  final VoidCallback onTap;
-
-  const NotificationCard({
-    required this.notification,
-    required this.onTap,
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
+  Widget _buildNotificationCard(
+      Article article, BuildContext context, NotificationsViewModel viewModel) {
     return InkWell(
-      onTap: onTap,
+      onTap: () => viewModel.markAsRead(article.url),
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 20.h),
         color: Colors.transparent,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Saat (sol tarafta)
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -128,7 +101,7 @@ class NotificationCard extends StatelessWidget {
                 SizedBox(
                   width: 60.w,
                   child: Text(
-                    _formatTime(notification.timestamp),
+                    _formatTime(DateTime.parse(article.publishedAt)),
                     style: AppTextStyles.h2.copyWith(
                       color: context.secondaryColor,
                       fontWeight: FontWeight.bold,
@@ -145,18 +118,16 @@ class NotificationCard extends StatelessWidget {
                       // Kaynak ve logo
                       Row(
                         children: [
-                          // Logo
-                          CircleAvatar(
-                            radius: 12.r,
-                            backgroundColor: Colors.transparent,
-                            backgroundImage: NetworkImage(
-                              notification.sourceImageUrl ?? '',
+                          if (article.urlToImage != null)
+                            CircleAvatar(
+                              radius: 12.r,
+                              backgroundColor: Colors.transparent,
+                              backgroundImage:
+                                  NetworkImage(article.urlToImage!),
                             ),
-                          ),
                           SizedBox(width: 8.w),
-                          // Kaynak adı
                           Text(
-                            notification.source,
+                            article.source,
                             style: AppTextStyles.body.copyWith(
                               color: context.textColor,
                             ),
@@ -165,9 +136,8 @@ class NotificationCard extends StatelessWidget {
                       ),
                       SizedBox(height: 8.h),
 
-                      // Başlık
                       Text(
-                        notification.title,
+                        article.title,
                         style: AppTextStyles.body.copyWith(
                           color: context.textColor,
                           fontWeight: FontWeight.w500,
@@ -175,11 +145,10 @@ class NotificationCard extends StatelessWidget {
                       ),
                       SizedBox(height: 8.h),
 
-                      // Kategori ve tarih
                       Row(
                         children: [
                           Text(
-                            notification.category,
+                            article.category.toString(),
                             style: AppTextStyles.caption.copyWith(
                               color: context.secondaryColor,
                             ),
@@ -194,7 +163,7 @@ class NotificationCard extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            '14 Şubat',
+                            _formatDate(DateTime.parse(article.publishedAt)),
                             style: AppTextStyles.caption.copyWith(
                               color: context.secondaryColor,
                             ),
@@ -212,9 +181,29 @@ class NotificationCard extends StatelessWidget {
     );
   }
 
-  String _formatTime(DateTime timestamp) {
-    String hour = timestamp.hour.toString().padLeft(2, '0');
-    String minute = timestamp.minute.toString().padLeft(2, '0');
-    return '$hour:$minute';
+  String _formatTime(DateTime date) {
+    return '${date.hour.toString().padLeft(2, '0')}:${date.minute.toString().padLeft(2, '0')}';
+  }
+
+  String _formatDate(DateTime date) {
+    return '${date.day} ${_getMonthName(date.month)}';
+  }
+
+  String _getMonthName(int month) {
+    const months = [
+      'Ocak',
+      'Şubat',
+      'Mart',
+      'Nisan',
+      'Mayıs',
+      'Haziran',
+      'Temmuz',
+      'Ağustos',
+      'Eylül',
+      'Ekim',
+      'Kasım',
+      'Aralık'
+    ];
+    return months[month - 1];
   }
 }
