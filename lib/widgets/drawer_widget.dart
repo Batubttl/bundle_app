@@ -1,12 +1,17 @@
 import 'package:bundle_app/views/auth/welcome_view.dart';
 import 'package:bundle_app/views/settings_view.dart';
+import 'package:bundle_app/views/weather_detail_view.dart';
+import 'package:bundle_app/views/currency_detail_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../core/extensions/theme_extension.dart';
 import '../core/theme/app_texts.dart';
 import '../core/theme/app_colors.dart';
+import '../services/weather_service.dart';
+import '../services/currency_service.dart';
+import 'package:get_it/get_it.dart';
 
-class DrawerWidget extends StatelessWidget {
+class DrawerWidget extends StatefulWidget {
   final bool isDrawerButton;
 
   const DrawerWidget({
@@ -15,8 +20,47 @@ class DrawerWidget extends StatelessWidget {
   });
 
   @override
+  State<DrawerWidget> createState() => _DrawerWidgetState();
+}
+
+class _DrawerWidgetState extends State<DrawerWidget> {
+  final WeatherService _weatherService = GetIt.I<WeatherService>();
+  final CurrencyService _currencyService = GetIt.I<CurrencyService>();
+  String temperature = '--°';
+  String usdRate = '--';
+
+  @override
+  void initState() {
+    super.initState();
+    _getWeather();
+    _getCurrencyRates();
+  }
+
+  Future<void> _getWeather() async {
+    try {
+      final weatherData = await _weatherService.getWeatherDetails();
+      setState(() {
+        temperature = weatherData.temperature;
+      });
+    } catch (e) {
+      print('Hava durumu alınamadı: $e');
+    }
+  }
+
+  Future<void> _getCurrencyRates() async {
+    try {
+      final currencyData = await _currencyService.getCurrencyRates();
+      setState(() {
+        usdRate = currencyData.usdToTry.toStringAsFixed(3);
+      });
+    } catch (e) {
+      print('Döviz kuru alınamadı: $e');
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    if (isDrawerButton) {
+    if (widget.isDrawerButton) {
       return Builder(
         builder: (BuildContext context) => IconButton(
           icon: Icon(Icons.menu,
@@ -93,25 +137,62 @@ class DrawerWidget extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      '35,958 USD',
-                      style: AppTextStyles.body.copyWith(
-                        color: context.textColor,
-                        fontWeight: FontWeight.bold,
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pop(context); // Drawer'ı kapat
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const CurrencyDetailView(),
+                          ),
+                        );
+                      },
+                      style: TextButton.styleFrom(
+                        padding: EdgeInsets.zero,
+                        minimumSize: Size.zero,
+                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      ),
+                      child: Row(
+                        children: [
+                          SizedBox(width: 4.w),
+                          Text(
+                            '$usdRate   USD',
+                            style: AppTextStyles.body.copyWith(
+                              color: context.textColor,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                    Row(
-                      children: [
-                        Icon(Icons.cloud,
-                            color: context.textColor, size: 20.sp),
-                        SizedBox(width: 4.w),
-                        Text(
-                          '6° ANKARA',
-                          style: AppTextStyles.caption.copyWith(
-                            color: context.textColor,
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pop(context); // Drawer'ı kapat
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const WeatherDetailView(),
                           ),
-                        ),
-                      ],
+                        );
+                      },
+                      style: TextButton.styleFrom(
+                        padding: EdgeInsets.zero,
+                        minimumSize: Size.zero,
+                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      ),
+                      child: Row(
+                        children: [
+                          Icon(Icons.cloud,
+                              color: context.textColor, size: 20.sp),
+                          SizedBox(width: 4.w),
+                          Text(
+                            '$temperature İSTANBUL',
+                            style: AppTextStyles.caption.copyWith(
+                              color: context.textColor,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),

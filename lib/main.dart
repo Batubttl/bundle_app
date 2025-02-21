@@ -1,4 +1,4 @@
-import 'package:bundle_app/core/dio/locator.dart';
+import 'package:bundle_app/core/di/locator.dart';
 import 'package:bundle_app/firebase_options.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
