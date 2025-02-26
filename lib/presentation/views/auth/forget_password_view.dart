@@ -1,3 +1,4 @@
+import 'package:bundle_app/core/constants/app_constants.dart';
 import 'package:bundle_app/presentation/widgets/close_icon_widget.dart';
 import 'package:bundle_app/presentation/widgets/custom_text_form.dart';
 import 'package:flutter/material.dart';
@@ -33,14 +34,14 @@ class ForgotPasswordView extends StatelessWidget {
                           const SizedBox(height: 40),
                           // Başlık
                           Text(
-                            "Parolanızı mı unuttunuz?",
+                            AppStrings.forgotPasswordText,
                             style: Theme.of(context).textTheme.headlineLarge,
                           ),
                           const SizedBox(height: 16),
 
                           // Açıklama metni
                           Text(
-                            "E-posta adresinizi girin, parolanızı sıfırlamak için kullanacağınız linki içeren bir e-posta göndereceğiz.",
+                            AppStrings.chooseEmailText,
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyLarge
@@ -61,7 +62,7 @@ class ForgotPasswordView extends StatelessWidget {
                                 // E-posta
                                 CustomTextFormField(
                                   controller: viewModel.emailController,
-                                  hintText: 'E-posta',
+                                  hintText: AppStrings.emailHint,
                                 ),
                                 const SizedBox(height: 24),
 

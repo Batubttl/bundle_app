@@ -1,4 +1,5 @@
-import '../core/constants/app_constants.dart';
+import 'package:bundle_app/core/enum/news_category_enum.dart';
+
 
 class Article {
   final String title;

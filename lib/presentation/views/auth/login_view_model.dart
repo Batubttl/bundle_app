@@ -1,3 +1,4 @@
+import 'package:bundle_app/core/constants/app_constants.dart';
 import 'package:bundle_app/core/theme/app_texts.dart';
 import 'package:bundle_app/presentation/views/auth/forget_password_view.dart';
 import 'package:bundle_app/presentation/views/auth/signup_view.dart';
@@ -16,16 +17,6 @@ class LoginViewModel extends ChangeNotifier {
 
   bool get isLoading => _isLoading;
   String? get errorMessage => _errorMessage;
-
-  // String sabitleri
-  static const String titleText = "Bundle'a Giriş Yap";
-  static const String emailHint = 'E-posta';
-  static const String passwordHint = 'Parola';
-  static const String loginButtonText = 'Giriş Yap';
-  static const String loadingText = 'Gönderiliyor...';
-  static const String forgotPasswordText = 'Parolanızı mı unuttunuz?';
-  static const String noAccountText = 'Hesabınız mı yok? ';
-  static const String signUpText = 'Bundle için kaydolun.';
 
   LoginViewModel(this._authService);
 
@@ -115,11 +106,11 @@ class LoginViewModel extends ChangeNotifier {
 
   // Text.rich için getter
   TextSpan get signUpTextSpan => TextSpan(
-        text: noAccountText,
+        text: AppStrings.noAccountText,
         style: AppTextStyles.body,
         children: [
           TextSpan(
-            text: signUpText,
+            text: AppStrings.signUpText,
             style: AppTextStyles.body.copyWith(
               decoration: TextDecoration.underline,
             ),

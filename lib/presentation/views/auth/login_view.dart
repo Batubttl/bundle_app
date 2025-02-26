@@ -1,3 +1,4 @@
+import 'package:bundle_app/core/constants/app_constants.dart';
 import 'package:bundle_app/core/theme/app_texts.dart';
 import 'package:bundle_app/presentation/views/auth/login_view_model.dart';
 import 'package:bundle_app/presentation/widgets/close_icon_widget.dart';
@@ -36,10 +37,9 @@ class LoginView extends StatelessWidget {
                             const SizedBox(height: 40),
                             // Başlık
                             Text(
-                              LoginViewModel.titleText,
+                              AppStrings.titleText,
                               style: AppTextStyles.h1.copyWith(
-                                color:
-                                    Theme.of(context).colorScheme.onBackground,
+                                color: Theme.of(context).colorScheme.onSurface,
                               ),
                             ),
                             const SizedBox(height: 40),
@@ -76,12 +76,12 @@ class LoginView extends StatelessWidget {
         children: [
           CustomTextFormField(
             controller: viewModel.emailController,
-            hintText: LoginViewModel.emailHint,
+            hintText: AppStrings.emailHint,
             validator: viewModel.validateEmail,
           ),
           CustomTextFormField(
             controller: viewModel.passwordController,
-            hintText: LoginViewModel.passwordHint,
+            hintText: AppStrings.passwordHint,
             isPassword: true,
             validator: viewModel.validatePassword,
           ),
@@ -98,8 +98,8 @@ class LoginView extends StatelessWidget {
           const SizedBox(height: 24),
           CustomButton(
             text: viewModel.isLoading
-                ? LoginViewModel.loadingText
-                : LoginViewModel.loginButtonText,
+                ? AppStrings.emailHint
+                : AppStrings.loadingText,
             onPressed: viewModel.isLoading
                 ? null
                 : () => viewModel.handleLogin(context),
@@ -115,9 +115,9 @@ class LoginView extends StatelessWidget {
     return TextButton(
       onPressed: () => viewModel.navigateToForgotPassword(context),
       child: Text(
-        LoginViewModel.forgotPasswordText,
+        AppStrings.forgotPasswordText,
         style: AppTextStyles.body.copyWith(
-          color: Theme.of(context).colorScheme.onBackground,
+          color: Theme.of(context).colorScheme.onSurface,
         ),
       ),
     );
@@ -125,13 +125,13 @@ class LoginView extends StatelessWidget {
 
   Widget _buildSignUpButton(BuildContext context, LoginViewModel viewModel) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 24),
+      padding: const EdgeInsets.only(bottom: 100),
       child: TextButton(
         onPressed: () => viewModel.navigateToSignUp(context),
         child: Text.rich(
           viewModel.signUpTextSpan,
           style: AppTextStyles.body.copyWith(
-            color: Theme.of(context).colorScheme.onBackground,
+            color: Theme.of(context).colorScheme.onSurface,
           ),
         ),
       ),

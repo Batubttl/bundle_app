@@ -1,4 +1,4 @@
-import '../constants/app_constants.dart';
+import 'package:bundle_app/core/enum/news_category_enum.dart';
 
 extension NewsCategoryExtension on NewsCategory {
   String get apiCategory {

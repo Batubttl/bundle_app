@@ -41,9 +41,7 @@ class AppTheme {
         primary: AppColors.primaryRed,
         tertiary: AppColors.tertiaryGreen,
         secondary: AppColors.secondaryGrey,
-        background: AppColors.lightBackground,
         surface: AppColors.lightSurface,
-        onBackground: AppColors.lightText,
         onSurface: AppColors.lightText,
       ),
       textTheme: _textTheme.apply(
@@ -67,10 +65,8 @@ class AppTheme {
         primary: AppColors.primaryRed,
         secondary: AppColors.secondaryGrey,
         tertiary: AppColors.tertiaryGreen,
-        background: AppColors.darkBackground,
         onPrimary: Colors.white,
         surface: AppColors.darkSurface,
-        onBackground: AppColors.darkText,
         onSurface: AppColors.darkText,
       ),
       textTheme: _textTheme.apply(

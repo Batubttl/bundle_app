@@ -1,13 +1,14 @@
 import 'package:bundle_app/core/constants/api_constants.dart';
+import 'package:bundle_app/core/constants/app_constants.dart';
 import 'package:bundle_app/core/di/locator.dart';
 import 'package:bundle_app/core/extensions/theme_extension.dart';
 import 'package:bundle_app/core/theme/app_texts.dart';
 import 'package:bundle_app/presentation/views/drawer/weather_viewmodel.dart';
 import 'package:bundle_app/presentation/widgets/custom_app_bar.dart';
-import 'package:bundle_app/services/weather_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import '../../../services/weather_service.dart';
 import 'package:get_it/get_it.dart';
 // ... diğer importlar ...
 
@@ -36,7 +37,7 @@ class WeatherDetailContent extends StatelessWidget {
             backgroundColor: context.backgroundColor,
             appBar: CustomAppBar(
               centerTitle: true,
-              title: 'Hava Durumu',
+              title: AppStrings.weatherTitle,
               showBackButton: false,
               leading: CloseButton(),
               backgroundColor: context.backgroundColor,
@@ -50,7 +51,7 @@ class WeatherDetailContent extends StatelessWidget {
           return Scaffold(
             backgroundColor: context.backgroundColor,
             appBar: const CustomAppBar(
-              title: 'Hava Durumu',
+              title: AppStrings.weatherTitle,
               showBackButton: false,
               leading: CloseButton(),
             ),
@@ -66,7 +67,7 @@ class WeatherDetailContent extends StatelessWidget {
         return Scaffold(
           backgroundColor: context.backgroundColor,
           appBar: const CustomAppBar(
-            title: 'Hava Durumu',
+            title: AppStrings.weatherTitle,
             showBackButton: false,
             leading: CloseButton(),
             backgroundColor: Colors.black,
@@ -87,7 +88,7 @@ class WeatherDetailContent extends StatelessWidget {
                     ),
                     SizedBox(height: 20.h),
                     Text(
-                      'İSTANBUL',
+                      AppStrings.cityName,
                       style: AppTextStyles.h2.copyWith(
                         color: context.textColor,
                         fontSize: 28.sp,
@@ -163,7 +164,7 @@ class WeatherDetailContent extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'HAFTALIK GÖRÜNÜM',
+                      AppStrings.weatherWeek,
                       style: AppTextStyles.h1.copyWith(
                         color: context.textColor,
                         fontSize: 16.sp,

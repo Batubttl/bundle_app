@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../../model/currency_model.dart';
-import '../../../services/currency_service.dart';
+import '../../../../model/currency_model.dart';
+import '../../../../services/currency_service.dart';
 
 class CurrencyViewModel extends ChangeNotifier {
   final CurrencyService _currencyService;

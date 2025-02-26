@@ -11,9 +11,9 @@ extension ThemeExtension on BuildContext {
 
   // Color getters
   Color get primaryColor => colorScheme.primary;
-  Color get backgroundColor => colorScheme.background;
+  Color get backgroundColor => colorScheme.surface;
   Color get surfaceColor => colorScheme.surface;
-  Color get textColor => colorScheme.onBackground;
+  Color get textColor => colorScheme.onSurface;
   Color get cardColor => theme.cardColor;
   Color get secondaryColor => colorScheme.secondary;
   Color get tertiaryColor => colorScheme.tertiary;

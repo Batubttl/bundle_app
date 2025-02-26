@@ -1,33 +1,60 @@
-enum NewsCategory {
-  tumu,
-  gundem,
-  bilim,
-  teknoloji,
-  eglence,
-  spor,
-  ekonomi;
-
-  String get title {
-    switch (this) {
-      case NewsCategory.tumu:
-        return 'TÜMÜ';
-      case NewsCategory.gundem:
-        return 'GÜNDEM';
-      case NewsCategory.bilim:
-        return 'BİLİM';
-      case NewsCategory.teknoloji:
-        return 'TEKNOLOJİ';
-      case NewsCategory.eglence:
-        return 'EĞLENCE';
-      case NewsCategory.spor:
-        return 'SPOR';
-      case NewsCategory.ekonomi:
-        return 'EKONOMİ';
-    }
-  }
-}
-
-class AppConstants {
-  static const String appName = 'Bundle Haber';
-  static const int pageSize = 10;
+class AppStrings {
+  static const String titleText = "Bundle'a Giriş Yap";
+  static const String emailHint = 'E-posta';
+  static const String passwordHint = 'Parola';
+  static const String loginButtonText = 'Giriş Yap';
+  static const String loadingText = 'Gönderiliyor...';
+  static const String forgotPasswordText = 'Parolanızı mı unuttunuz?';
+  static const String noAccountText = 'Hesabınız mı yok? ';
+  static const String signUpText = 'Bundle için kaydolun.';
+  static const String title = "Bundle'a Kaydol";
+  static const String nameHint = "Ad";
+  static const String surnameHint = "Soyad";
+  static const String signUpButtonText = "Hesap Oluştur";
+  static const String chooseEmailText =
+      "E-posta adresinizi girin, parolanızı sıfırlamak için kullanacağınız linki içeren bir e-posta göndereceğiz.";
+  static const String weatherTitle = 'Hava Durumu';
+  static const String weatherWeek = 'Haftalık Görünüm';
+  static const String cityName = "İSTANBUL";
+  static const String appBarFeatured = 'ÖNE ÇIKANLAR';
+  static const String featuredTitle = 'Popüler';
+  static const String storyFirstTitle = 'Hot Bundle';
+  static const String storySecondTitle = 'Düne Ne Oldu';
+  static const String storyThirdTitle = 'Bilim';
+  static const String specialTitle = 'BUNDLE ÖZEL';
+  static const String moveWebButton = 'SİTEYE GİT';
+  static const String notificationsTitle = 'BİLDİRİMLER';
+  static const String errorNews = 'Haber Bulunamıyor';
+  static const String searchTitle = 'İÇERİK MAĞAZASI';
+  static const String searchHintText = 'Haber, Mecra, Konu ara';
+  static const String firstInterestTitle = 'Spor, sadece futbol değil';
+  static const String secondInterestTitle = 'Bilim & Teknoloji';
+  static const String thirdInterestTitle = 'Ekonomi & Finans';
+  static const String fourthInterestTitle = 'Okumaya Değer';
+  static const String fifthInterestTitle = 'Sağlık & Yaşam';
+  static const String titleInterest = 'İlgi Alanları';
+  static const String gptText = 'ChatGPT';
+  static const String discountText = 'İndirim';
+  static const String cryptoText = 'Kripto Para';
+  static const String subjectText = 'Konular';
+  static const String writeSomethingText = 'Aramak için bir şeyler yazın';
+  static const String errorSearch = 'Sonuç bulunamadı';
+  static const String sourcesText = 'Kaynaklar';
+  static const String darkThemeText = 'Aydınlık Tema';
+  static const String lightThemeText = 'Karanlık Tema';
+  static const String modeChangeText = 'Gece Modu';
+  static const String settingsAppBar = 'AYARLAR';
+  static const String settingsTitle = 'Ayarlar';
+  static const String appSettings = 'UYGULAMA AYARLARI';
+  static const String listViewText = 'List';
+  static const String gridViewText = 'Grid';
+  static const String appIconText = 'Uygulama İkonu';
+  static const String viewMode = 'GÖRÜNTÜLEME MODU';
+  static const String scannerSettings = 'Tarayıcı Ayarları';
+  static const String changeCountry = 'Ülkeyi Değiştir';
+  static const String changeLanguage = 'Dili Değiştir';
+  static const String wifiOption = 'Görselleri Sadece Wifi\'da Göster';
+  static const String storyPublished = '1 GÜN ÖNCE';
+  static const String scrollNews = 'HABER DETAYI İÇİN KAYDIR';
+  static const String errorCurrency = 'Döviz kuru alınamadı';
 }

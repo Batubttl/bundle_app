@@ -74,11 +74,8 @@ class WeatherService {
         // Saatlik tahminleri işle
         for (var item in (forecastResponse.data['list'] as List).take(24)) {
           hourlyList.add(HourlyWeather(
-            time: DateTime.fromMillisecondsSinceEpoch(item['dt'] * 1000)
-                    .hour
-                    .toString()
-                    .padLeft(2, '0') +
-                ':00',
+            time:
+                '${DateTime.fromMillisecondsSinceEpoch(item['dt'] * 1000).hour.toString().padLeft(2, '0')}:00',
             temperature: '${item['main']['temp'].round()}°',
             icon: item['weather'][0]['icon'],
           ));

@@ -1,11 +1,11 @@
 import 'package:bundle_app/core/theme/app_colors.dart';
-import 'package:bundle_app/presentation/widgets/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import '../../../core/di/locator.dart';
-import '../../../core/extensions/theme_extension.dart';
-import '../../../core/theme/app_texts.dart';
+import '../../../../core/di/locator.dart';
+import '../../../../core/extensions/theme_extension.dart';
+import '../../../../core/theme/app_texts.dart';
+import '../../widgets/custom_app_bar.dart';
 import 'currency_view_model.dart';
 
 class CurrencyDetailView extends StatelessWidget {
