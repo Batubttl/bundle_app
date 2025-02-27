@@ -1,6 +1,4 @@
-import 'package:bundle_app/core/theme/app_texts.dart';
 import 'package:bundle_app/presentation/views/auth/login_view.dart';
-import 'package:bundle_app/presentation/views/auth/login_view_model.dart';
 import 'package:bundle_app/presentation/views/auth/signup_view.dart';
 import 'package:bundle_app/presentation/widgets/close_icon_widget.dart';
 import 'package:bundle_app/presentation/widgets/social_button.dart';
@@ -58,7 +56,7 @@ class WelcomeView extends StatelessWidget {
 
                 const SizedBox(height: 30), // Alt boşluk
 
-                _buildSignupButton(),
+                _BuildSignupButton(),
               ],
             ),
           ],
@@ -95,8 +93,8 @@ class WelcomeView extends StatelessWidget {
   }
 }
 
-class _buildSignupButton extends StatelessWidget {
-  const _buildSignupButton();
+class _BuildSignupButton extends StatelessWidget {
+  const _BuildSignupButton();
 
   @override
   Widget build(BuildContext context) {
@@ -131,19 +129,4 @@ class _buildSignupButton extends StatelessWidget {
       ),
     );
   }
-}
-
-Widget _buildSignUpButton(BuildContext context, LoginViewModel viewModel) {
-  return Padding(
-    padding: const EdgeInsets.only(bottom: 100),
-    child: TextButton(
-      onPressed: () => viewModel.navigateToSignUp(context),
-      child: Text.rich(
-        viewModel.signUpTextSpan,
-        style: AppTextStyles.body.copyWith(
-          color: Theme.of(context).colorScheme.onSurface,
-        ),
-      ),
-    ),
-  );
 }

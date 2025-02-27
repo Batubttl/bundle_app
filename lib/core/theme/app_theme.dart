@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'app_colors.dart';
 
 class AppTheme {
-  // Text stilleri
   static final TextTheme _textTheme = TextTheme(
     headlineLarge: TextStyle(
       fontSize: 24,
@@ -31,7 +30,6 @@ class AppTheme {
     ),
   );
 
-  // Aydınlık tema
   static ThemeData get lightTheme {
     return ThemeData(
       brightness: Brightness.light,
@@ -55,7 +53,6 @@ class AppTheme {
     );
   }
 
-  // Karanlık tema
   static ThemeData get darkTheme {
     return ThemeData(
       brightness: Brightness.dark,

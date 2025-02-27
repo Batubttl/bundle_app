@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart'; // Timestamp için import ekledik
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class StoryModel {
   final String id;
   final String title;
-  String imagePath; // final kaldırıldı, değiştirilebilir yapıldı
+  String imagePath;
   final Color color;
   final int order;
   final bool isViewed;
-  final List<StoryContent> stories; // Her kategorinin story'leri
+  final List<StoryContent> stories;
 
   StoryModel({
     required this.id,
@@ -20,7 +20,6 @@ class StoryModel {
     this.stories = const [],
   });
 
-  // Firestore'dan veri dönüşümü için
   factory StoryModel.fromJson(Map<String, dynamic> json) {
     return StoryModel(
       id: json['id'] ?? '',
@@ -28,12 +27,11 @@ class StoryModel {
       imagePath: json['imagePath'] ?? '',
       color: Color(int.parse(json['color'], radix: 16)),
       order: json['order'] ?? 0,
-      isViewed: false, // Başlangıçta görüntülenmemiş
+      isViewed: false,
     );
   }
 }
 
-// Her bir story içeriği için model
 class StoryContent {
   final String id;
   final String title;
@@ -57,7 +55,6 @@ class StoryContent {
     required this.viewCount,
   });
 
-  // Firestore'dan veri dönüşümü için
   factory StoryContent.fromJson(Map<String, dynamic> json) {
     return StoryContent(
       id: json['id'] ?? '',

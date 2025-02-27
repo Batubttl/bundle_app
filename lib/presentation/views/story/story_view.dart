@@ -2,7 +2,6 @@ import 'package:bundle_app/core/constants/app_constants.dart';
 import 'package:bundle_app/presentation/views/news/news_details_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../model/story_model.dart';
 import '../../../model/article_model.dart';
 import 'package:provider/provider.dart';
 import 'story_view_model.dart';
@@ -67,15 +66,11 @@ class _StoryViewContent extends StatelessWidget {
                       viewModel.stories.length,
                       (index) => Expanded(
                         child: Container(
-                          height: 2,
-                          margin: EdgeInsets.symmetric(horizontal: 2.w),
-                          color: viewModel.currentIndex >= index
-                              ? Colors.white
-                              : Theme.of(context)
-                                  .colorScheme
-                                  .onSurface
-                                  .withOpacity(0.3),
-                        ),
+                            height: 2,
+                            margin: EdgeInsets.symmetric(horizontal: 2.w),
+                            color: viewModel.currentIndex >= index
+                                ? Colors.white
+                                : Theme.of(context).colorScheme.onSurface),
                       ),
                     ),
                   ),

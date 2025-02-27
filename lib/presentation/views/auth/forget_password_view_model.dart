@@ -10,19 +10,16 @@ class ForgotPasswordViewModel extends ChangeNotifier {
 
   ForgotPasswordViewModel(this._authService);
 
-  // Dispose işlemlerini ViewModel'de yapalım
   @override
   void dispose() {
     emailController.dispose();
     super.dispose();
   }
 
-  // Navigation logic'i
   void navigateBack(BuildContext context) {
     Navigator.pop(context);
   }
 
-  // Form validation ve submit işlemi
   Future<void> handleForgotPassword(BuildContext context) async {
     if (formKey.currentState!.validate()) {
       final success = await forgotPassword(emailController.text.trim());
@@ -41,7 +38,6 @@ class ForgotPasswordViewModel extends ChangeNotifier {
   bool get isLoading => _isLoading;
   String? get errorMessage => _errorMessage;
 
-  // Email validasyonu
   String? validateEmail(String? value) {
     if (value == null || value.isEmpty) {
       return 'E-posta adresi boş bırakılamaz';

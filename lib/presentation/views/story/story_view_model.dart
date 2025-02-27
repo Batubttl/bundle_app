@@ -46,7 +46,7 @@ class StoryViewModel extends ChangeNotifier {
       // Haber detayına yönlendirme işlemleri
       // Örneğin: URL'i açma, detay sayfasına yönlendirme vs.
     } catch (e) {
-      print('Error navigating to news detail: $e');
+      debugPrint('Error navigating to news detail: $e');
     } finally {
       _isLoading = false;
       notifyListeners();

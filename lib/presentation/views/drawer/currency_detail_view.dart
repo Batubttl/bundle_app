@@ -121,7 +121,7 @@ class _CurrencyDetailContent extends StatelessWidget {
                 Text(
                   name,
                   style: AppTextStyles.body.copyWith(
-                    color: context.textColor.withOpacity(0.7),
+                    color: context.textColor.withValues(),
                     fontSize: 14.sp,
                   ),
                 ),

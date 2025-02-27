@@ -9,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import '../../../services/weather_service.dart';
-import 'package:get_it/get_it.dart';
 // ... diğer importlar ...
 
 class WeatherDetailView extends StatelessWidget {
@@ -121,7 +120,7 @@ class WeatherDetailContent extends StatelessWidget {
                       width: 80.w,
                       margin: EdgeInsets.only(right: 12.w),
                       decoration: BoxDecoration(
-                        color: context.textColor.withOpacity(0.1),
+                        color: context.cardColor,
                         borderRadius: BorderRadius.circular(16.r),
                       ),
                       child: Column(
@@ -173,44 +172,41 @@ class WeatherDetailContent extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 24.h),
-                    ...weatherData.dailyForecast
-                        .map((daily) => Padding(
-                              padding: EdgeInsets.only(bottom: 24.h),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                    ...weatherData.dailyForecast.map((daily) => Padding(
+                          padding: EdgeInsets.only(bottom: 24.h),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                daily.day,
+                                style: AppTextStyles.body.copyWith(
+                                  color: context.textColor,
+                                  fontSize: 18.sp,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                              Row(
                                 children: [
+                                  Image.network(
+                                    '${ApiConstants.weatherIconBaseUrl}/${daily.icon}.png',
+                                    width: 30.w,
+                                    height: 30.h,
+                                    color: context.textColor,
+                                  ),
+                                  SizedBox(width: 12.w),
                                   Text(
-                                    daily.day,
+                                    daily.temperature,
                                     style: AppTextStyles.body.copyWith(
                                       color: context.textColor,
                                       fontSize: 18.sp,
-                                      fontWeight: FontWeight.w400,
+                                      fontWeight: FontWeight.w500,
                                     ),
-                                  ),
-                                  Row(
-                                    children: [
-                                      Image.network(
-                                        '${ApiConstants.weatherIconBaseUrl}/${daily.icon}.png',
-                                        width: 30.w,
-                                        height: 30.h,
-                                        color: context.textColor,
-                                      ),
-                                      SizedBox(width: 12.w),
-                                      Text(
-                                        daily.temperature,
-                                        style: AppTextStyles.body.copyWith(
-                                          color: context.textColor,
-                                          fontSize: 18.sp,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                    ],
                                   ),
                                 ],
                               ),
-                            ))
-                        .toList(),
+                            ],
+                          ),
+                        )),
                   ],
                 ),
               ),

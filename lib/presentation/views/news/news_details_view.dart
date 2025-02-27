@@ -82,7 +82,7 @@ class NewsDetailView extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    article.title ?? '',
+                    article.title,
                     style: AppTextStyles.h1.copyWith(
                       color: context.textColor,
                     ),
@@ -91,14 +91,14 @@ class NewsDetailView extends StatelessWidget {
                   Row(
                     children: [
                       Text(
-                        article.source ?? '',
+                        article.source,
                         style: AppTextStyles.caption.copyWith(
                           color: context.secondaryColor,
                         ),
                       ),
                       SizedBox(width: 8.w),
                       Text(
-                        '• ${article.publishedAt ?? ''}',
+                        '• ${article.publishedAt}',
                         style: AppTextStyles.caption.copyWith(
                           color: context.secondaryColor,
                         ),
@@ -114,7 +114,6 @@ class NewsDetailView extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 24.h),
-                  // Modern "Siteye Git" butonu
                   InkWell(
                     onTap: _launchURL,
                     child: Container(
@@ -124,7 +123,7 @@ class NewsDetailView extends StatelessWidget {
                       ),
                       decoration: BoxDecoration(
                         border: Border.all(
-                          color: context.textColor.withOpacity(0.5),
+                          color: context.textColor,
                           width: 1,
                         ),
                         borderRadius: BorderRadius.circular(8),

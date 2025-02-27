@@ -1,3 +1,4 @@
+import 'package:bundle_app/core/constants/app_constants.dart';
 import 'package:dio/dio.dart';
 import '../core/constants/api_constants.dart';
 import '../model/currency_model.dart';
@@ -12,9 +13,9 @@ class CurrencyService {
       if (response.statusCode == 200) {
         return CurrencyData.fromJson(response.data);
       }
-      throw Exception('Döviz kuru alınamadı');
+      throw Exception(AppStrings.errorCurrency);
     } catch (e) {
-      throw Exception('Döviz kuru alınamadı: $e');
+      throw Exception('${AppStrings.errorCurrency} $e');
     }
   }
 }

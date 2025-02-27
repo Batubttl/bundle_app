@@ -52,7 +52,7 @@ class FeaturedViewModel extends ChangeNotifier {
       _isLoading = false;
       notifyListeners();
     } catch (e) {
-      print('Error in _initializeData: $e');
+      debugPrint('Error in _initializeData: $e');
       _error = e.toString();
       _isLoading = false;
       notifyListeners();

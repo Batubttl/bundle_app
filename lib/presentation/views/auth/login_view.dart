@@ -99,7 +99,7 @@ class LoginView extends StatelessWidget {
           CustomButton(
             text: viewModel.isLoading
                 ? AppStrings.emailHint
-                : AppStrings.loadingText,
+                : AppStrings.loginButtonText,
             onPressed: viewModel.isLoading
                 ? null
                 : () => viewModel.handleLogin(context),

@@ -46,7 +46,7 @@ class ThemeSelectionView extends StatelessWidget {
                   },
                   child: _buildThemeOption(
                     context,
-                    AppStrings.darkThemeText,
+                    AppStrings.lightThemeText,
                     themeProvider.themeMode == ThemeMode.dark,
                   ),
                 ),
@@ -56,7 +56,7 @@ class ThemeSelectionView extends StatelessWidget {
                   },
                   child: _buildThemeOption(
                     context,
-                    AppStrings.lightThemeText,
+                    AppStrings.darkThemeText,
                     themeProvider.themeMode == ThemeMode.light,
                   ),
                 ),

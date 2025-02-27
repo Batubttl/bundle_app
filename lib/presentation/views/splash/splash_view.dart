@@ -27,8 +27,8 @@ class _SplashViewContent extends StatelessWidget {
         viewModel.init().then((_) {
           Navigator.of(context).pushAndRemoveUntil(
             PageRouteBuilder(
-              pageBuilder: (context, animation, secondaryAnimation) => 
-                const NavigationController(),
+              pageBuilder: (context, animation, secondaryAnimation) =>
+                  const NavigationController(),
               transitionDuration: Duration.zero,
               reverseTransitionDuration: Duration.zero,
             ),
@@ -48,8 +48,6 @@ class _SplashViewContent extends StatelessWidget {
                   height: 200.w,
                 ),
                 SizedBox(height: 24.h),
-                
-                
               ],
             ),
           ),

@@ -1,3 +1,4 @@
+import 'package:bundle_app/core/constants/app_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:bundle_app/core/theme/app_theme.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -26,7 +27,7 @@ class ThemeProvider extends ChangeNotifier {
         notifyListeners();
       }
     } catch (e) {
-      debugPrint('Tema yüklenirken hata: $e');
+      debugPrint('${AppStrings.errorThemeLoading}: $e');
     }
   }
 
@@ -39,12 +40,11 @@ class ThemeProvider extends ChangeNotifier {
         final prefs = await SharedPreferences.getInstance();
         await prefs.setString(_key, mode.toString());
       } catch (e) {
-        debugPrint('Tema kaydedilirken hata: $e');
+        debugPrint('${AppStrings.errorThemeSave} $e');
       }
     }
   }
 
-  // Mevcut temayı al
   ThemeData getTheme() {
     switch (_themeMode) {
       case ThemeMode.light:
@@ -52,8 +52,11 @@ class ThemeProvider extends ChangeNotifier {
       case ThemeMode.dark:
         return AppTheme.darkTheme;
       case ThemeMode.system:
-        final brightness = WidgetsBinding.instance.window.platformBrightness;
-        return brightness == Brightness.dark ? AppTheme.darkTheme : AppTheme.lightTheme;
+        final brightness =
+            WidgetsBinding.instance.platformDispatcher.platformBrightness;
+        return brightness == Brightness.dark
+            ? AppTheme.darkTheme
+            : AppTheme.lightTheme;
     }
   }
 }

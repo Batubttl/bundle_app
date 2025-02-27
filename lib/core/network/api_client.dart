@@ -18,7 +18,6 @@ class ApiClient {
       ),
     );
 
-    // Debug için logging interceptor ekle
     _dio.interceptors.add(LogInterceptor(
       request: true,
       requestHeader: true,
@@ -28,12 +27,10 @@ class ApiClient {
       error: true,
     ));
 
-    // Interceptor ekle
     _dio.interceptors.add(
       InterceptorsWrapper(
         onError: (error, handler) async {
           if (error.response?.statusCode == 429) {
-            // Rate limit aşıldığında 2 saniye bekle ve tekrar dene
             await Future.delayed(const Duration(seconds: 2));
             return handler.resolve(await _dio.fetch(error.requestOptions));
           }

@@ -1,9 +1,9 @@
 import 'package:bundle_app/core/di/locator.dart';
 import 'package:bundle_app/firebase_options.dart';
+import 'package:bundle_app/presentation/views/splash/splash_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'widgets/navigation_controller.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:bundle_app/providers/theme_provider.dart';
 import 'package:bundle_app/core/theme/app_theme.dart';
@@ -13,6 +13,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
   setupLocator();
 
   runApp(
@@ -36,12 +37,12 @@ class BundleApp extends StatelessWidget {
           splitScreenMode: true,
           builder: (_, child) => MaterialApp(
             debugShowCheckedModeBanner: false,
-            title: 'Bundle App',
+
             theme: AppTheme.lightTheme, // Aydınlık tema
             darkTheme: AppTheme.darkTheme, // Karanlık tema
             themeMode:
                 themeProvider.themeMode, // Tema modu (system, light, dark)
-            home: const NavigationController(),
+            home: const SplashView(),
           ),
         );
       },

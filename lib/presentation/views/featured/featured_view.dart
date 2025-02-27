@@ -274,7 +274,7 @@ class _FeaturedViewContent extends StatelessWidget {
                         ),
                         SizedBox(height: 8.h),
                         Text(
-                          article.title ?? '',
+                          article.title,
                           style: AppTextStyles.body.copyWith(
                             color: context.textColor,
                             fontWeight: FontWeight.w500,

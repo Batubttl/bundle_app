@@ -6,7 +6,6 @@ import 'package:provider/provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../widgets/category_tab_bar.dart';
 import '../../widgets/news_grid_item.dart';
-import 'package:url_launcher/url_launcher.dart';
 import '../../widgets/drawer_widget.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import '../news/news_details_view.dart';
@@ -27,13 +26,6 @@ class HomeView extends StatelessWidget {
 
 class _HomeViewContent extends StatelessWidget {
   const _HomeViewContent();
-
-  Future<void> _launchWordle() async {
-    final Uri url = Uri.parse('https://wordleturkce.bundle.app/');
-    if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
-      throw Exception('URL açılamadı: $url');
-    }
-  }
 
   @override
   Widget build(BuildContext context) {

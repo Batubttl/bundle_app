@@ -98,13 +98,13 @@ class HomeViewModel extends ChangeNotifier {
 
   // Yenileme
   Future<void> refreshArticles() async {
-    print('Refreshing articles'); // Debug log
+    debugPrint('Refreshing articles'); // Debug log
     return refreshNews();
   }
 
   // Daha fazla haber yükleme
   Future<void> loadMore() async {
-    print('Loading more articles'); // Debug log
+    debugPrint('Loading more articles'); // Debug log
     if (!_isLoading && !_isLoadingMore && _hasMore) {
       await loadMoreNews();
     }

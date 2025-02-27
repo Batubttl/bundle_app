@@ -57,4 +57,27 @@ class AppStrings {
   static const String storyPublished = '1 GÜN ÖNCE';
   static const String scrollNews = 'HABER DETAYI İÇİN KAYDIR';
   static const String errorCurrency = 'Döviz kuru alınamadı';
+  static const String errorWeather = 'Hava durumu alınamadı';
+  static const String errorThemeLoading = 'Tema Yüklenirken Hata';
+  static const String errorThemeSave = 'Tema Kaydedilirken Hata';
+  static const String errorUrl = 'Url Açılamadı';
+  static const String homeText = 'Ana Sayfa';
+  static const String saveText = 'Kaydedilenler';
+  static const String profileText = 'Profil';
+  static const String navgiatonSearch = 'Keşfet';
+  static const String categoryAll = 'TÜMÜ';
+  static const String categoryScience = 'BİLİM';
+  static const String categoryTech = 'TEKNOLOJİ';
+  static const String categoryFun = 'EĞLENCE';
+  static const String categoryTrend = 'GÜNDEM';
+  static const String countAll = '19';
+  static const String countScience = '8';
+  static const String countTech = '15';
+  static const String countFun = '5';
+  static const String countTrend = '27';
+  static const String addSource = 'Kaynak Ekle';
+  static const String resetPassword = 'Şifreyi Sıfırla';
+  static const String canSearch = 'Arama';
+  static const String wordleText = 'Wordle oyna kafanı dağıt.';
+  static const String wordleLetterText = 'W';
 }

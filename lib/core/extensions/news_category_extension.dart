@@ -55,8 +55,6 @@ extension NewsCategoryExtension on NewsCategory {
         return 'SPOR';
       case NewsCategory.ekonomi:
         return 'EKONOMİ';
-      default:
-        return 'TÜMÜ';
     }
   }
 }
