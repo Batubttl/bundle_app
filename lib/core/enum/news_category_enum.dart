@@ -25,6 +25,26 @@ enum NewsCategory {
         return 'EKONOMİ';
     }
   }
+
+  // Yeni eklenen getter
+  String get queryString {
+    switch (this) {
+      case NewsCategory.tumu:
+        return '(türkiye OR türk OR ankara OR istanbul)';
+      case NewsCategory.gundem:
+        return '(gündem OR siyaset OR politika)';
+      case NewsCategory.spor:
+        return '(spor OR futbol OR basketbol OR fenerbahçe OR galatasaray OR beşiktaş)';
+      case NewsCategory.teknoloji:
+        return '(teknoloji OR yazılım OR bilişim OR yapay zeka)';
+      case NewsCategory.bilim:
+        return '(bilim OR uzay OR araştırma OR keşif)';
+      case NewsCategory.ekonomi:
+        return '(ekonomi OR finans OR borsa OR dolar OR altın)';
+      case NewsCategory.eglence:
+        return '(magazin OR sinema OR dizi OR müzik)';
+    }
+  }
 }
 
 class AppConstants {

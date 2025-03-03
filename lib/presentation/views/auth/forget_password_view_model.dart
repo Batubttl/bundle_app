@@ -1,3 +1,4 @@
+import 'package:bundle_app/core/constants/app_constants.dart';
 import 'package:flutter/material.dart';
 import '../../../services/auth_services.dart';
 
@@ -70,8 +71,7 @@ class ForgotPasswordViewModel extends ChangeNotifier {
   void _showSuccessMessage(BuildContext context) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content:
-            Text('Şifre sıfırlama bağlantısı e-posta adresinize gönderildi.'),
+        content: Text(AppStrings.sendPasswordResetEmail),
         backgroundColor: Theme.of(context).colorScheme.tertiary,
       ),
     );
@@ -80,7 +80,7 @@ class ForgotPasswordViewModel extends ChangeNotifier {
   void _showErrorMessage(BuildContext context) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text(errorMessage ?? 'Bir hata oluştu'),
+        content: Text(errorMessage ?? AppStrings.unexpectedError),
         backgroundColor: Theme.of(context).colorScheme.primary,
       ),
     );

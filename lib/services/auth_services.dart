@@ -1,19 +1,17 @@
+import 'package:bundle_app/core/constants/app_constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  // Giriş yap
   Future<UserCredential> signInWithEmailAndPassword({
     required String email,
     required String password,
   }) async {
     try {
-      // Web platformu için reCAPTCHA yapılandırması
       if (kIsWeb) {
         await _auth.setPersistence(Persistence.LOCAL);
-        // Web için reCAPTCHA yapılandırması eklenebilir
       }
 
       final userCredential = await _auth.signInWithEmailAndPassword(
@@ -21,33 +19,28 @@ class AuthService {
         password: password,
       );
 
-      // Giriş başarılı olduğunda kullanıcı bilgilerini kontrol et
       if (userCredential.user != null) {
-        // E-posta doğrulaması kontrolü (isteğe bağlı)
-        if (!userCredential.user!.emailVerified) {
-          // await userCredential.user!.sendEmailVerification();
-          // throw 'Lütfen e-posta adresinizi doğrulayın';
-        }
+        if (!userCredential.user!.emailVerified) {}
       }
 
       return userCredential;
     } on FirebaseAuthException catch (e) {
       switch (e.code) {
         case 'user-not-found':
-          throw 'Bu e-posta adresi ile kayıtlı kullanıcı bulunamadı';
+          throw AppStrings.userNotFound;
         case 'wrong-password':
-          throw 'Hatalı parola';
+          throw AppStrings.wrongPassword;
         case 'invalid-email':
-          throw 'Geçersiz e-posta adresi';
+          throw AppStrings.invalidEmail;
         case 'user-disabled':
-          throw 'Bu hesap devre dışı bırakılmış';
+          throw AppStrings.userDisabled;
         case 'too-many-requests':
-          throw 'Çok fazla başarısız giriş denemesi. Lütfen daha sonra tekrar deneyin';
+          throw AppStrings.tooManyRequests;
         default:
-          throw 'Bir hata oluştu: ${e.message}';
+          throw '${AppStrings.unexpectedError}: ${e.message}';
       }
     } catch (e) {
-      throw 'Beklenmeyen bir hata oluştu: $e';
+      throw AppStrings.unexpectedError;
     }
   }
 
@@ -58,24 +51,21 @@ class AuthService {
       if (e is FirebaseAuthException) {
         switch (e.code) {
           case 'user-not-found':
-            throw 'Bu e-posta adresi ile kayıtlı bir kullanıcı bulunamadı.';
+            throw AppStrings.resetPasswordUserNotFound;
           case 'invalid-email':
-            throw 'Geçersiz e-posta adresi.';
+            throw AppStrings.invalidEmail;
           default:
-            throw 'Bir hata oluştu: ${e.message}';
+            throw '${AppStrings.unexpectedError}: ${e.message}';
         }
       }
-      throw 'Beklenmeyen bir hata oluştu.';
+      throw AppStrings.unexpectedError;
     }
   }
 
-  // Mevcut kullanıcıyı al
   User? get currentUser => _auth.currentUser;
 
-  // Kullanıcı durumu değişikliklerini dinle
   Stream<User?> get authStateChanges => _auth.authStateChanges();
 
-  // Kayıt ol
   Future<UserCredential?> signUpWithEmailAndPassword({
     required String email,
     required String password,
@@ -89,7 +79,6 @@ class AuthService {
         password: password,
       );
 
-      // Kullanıcı profil bilgilerini güncelle
       await userCredential.user?.updateDisplayName('$name $surname');
 
       return userCredential;
@@ -98,35 +87,32 @@ class AuthService {
     }
   }
 
-  // Çıkış yap
   Future<void> signOut() async {
     try {
       await _auth.signOut();
     } catch (e) {
-      throw 'Çıkış yapılırken bir hata oluştu: $e';
+      throw AppStrings.signOutError;
     }
   }
 
-  // Oturum durumunu kontrol et
   bool get isLoggedIn => currentUser != null;
 
-  // Firebase hata mesajlarını Türkçeleştir
   String _handleAuthException(FirebaseAuthException e) {
     switch (e.code) {
       case 'invalid-email':
-        return 'Geçersiz e-posta adresi';
+        return AppStrings.invalidEmail;
       case 'user-disabled':
-        return 'Kullanıcı hesabı devre dışı bırakılmış';
+        return AppStrings.userDisabled;
       case 'user-not-found':
-        return 'Kullanıcı bulunamadı';
+        return AppStrings.userNotFound;
       case 'wrong-password':
-        return 'Hatalı parola';
+        return AppStrings.wrongPassword;
       case 'email-already-in-use':
-        return 'Bu e-posta adresi zaten kullanımda';
+        return AppStrings.emailAlreadyInUse;
       case 'weak-password':
-        return 'Parola çok zayıf';
+        return AppStrings.weakPassword;
       default:
-        return 'Bir hata oluştu: ${e.message}';
+        return '${AppStrings.unexpectedError} ${e.message}';
     }
   }
 }

@@ -18,7 +18,7 @@ class NewsDetailView extends StatelessWidget {
   Future<void> _launchURL() async {
     final Uri url = Uri.parse(article.url);
     if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
-      throw Exception('URL açılamadı: $url');
+      throw Exception('${AppStrings.errorUrl}ı: $url');
     }
   }
 

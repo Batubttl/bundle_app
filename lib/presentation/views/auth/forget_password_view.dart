@@ -69,8 +69,8 @@ class ForgotPasswordView extends StatelessWidget {
                                 // Şifreyi Sıfırla Butonu
                                 CustomButton(
                                   text: viewModel.isLoading
-                                      ? 'Gönderiliyor...'
-                                      : 'Şifreyi Sıfırla',
+                                      ? AppStrings.loadingText
+                                      : AppStrings.resetPassword,
                                   onPressed: viewModel.isLoading
                                       ? null
                                       : () => viewModel

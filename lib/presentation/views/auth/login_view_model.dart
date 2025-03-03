@@ -30,20 +30,20 @@ class LoginViewModel extends ChangeNotifier {
   // Form validasyonları
   String? validateEmail(String? value) {
     if (value == null || value.isEmpty) {
-      return 'E-posta adresi gerekli';
+      return AppStrings.needMail;
     }
     if (!value.contains('@')) {
-      return 'Geçerli bir e-posta adresi girin';
+      return AppStrings.invalidEmail;
     }
     return null;
   }
 
   String? validatePassword(String? value) {
     if (value == null || value.isEmpty) {
-      return 'Parola gerekli';
+      return AppStrings.needPassword;
     }
     if (value.length < 6) {
-      return 'Parola en az 6 karakter olmalı';
+      return AppStrings.atLeastSix;
     }
     return null;
   }

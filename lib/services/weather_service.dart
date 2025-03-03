@@ -1,4 +1,5 @@
 import 'package:bundle_app/core/constants/api_constants.dart';
+import 'package:bundle_app/core/constants/app_constants.dart';
 import 'package:bundle_app/model/weather_model.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -69,14 +70,14 @@ class WeatherService {
       }
       throw Exception('Veri alınamadı');
     } catch (e) {
-      debugPrint('Hava durumu verisi alınamadı: $e');
-      throw Exception('Hava durumu verisi alınamadı');
+      debugPrint('${AppStrings.errorWeather}: $e');
+      throw Exception(AppStrings.errorWeather);
     }
   }
 
   String _getDayName(DateTime date) {
     final now = DateTime.now();
-    if (date.day == now.day) return 'Bugün';
+    if (date.day == now.day) return AppStrings.dayToday;
 
     final days = [
       'Pazartesi',

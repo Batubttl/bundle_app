@@ -27,41 +27,38 @@ class SearchViewModel extends ChangeNotifier {
   final List<TopicItem> topics = [
     TopicItem(
       title: AppStrings.gptText,
-      imageUrl: 'assets/images/gpt.png',
-      isAddable: true,
+      imageUrl: AppAsset.gptImage,
     ),
     TopicItem(
       title: AppStrings.discountText,
-      imageUrl: 'assets/images/superlig.jpeg',
+      imageUrl: AppAsset.discountImage,
       isAddable: true,
     ),
     TopicItem(
       title: AppStrings.cryptoText,
-      imageUrl: 'assets/images/bitcoin.png',
+      imageUrl: AppAsset.cryptoImage,
       isAddable: true,
     ),
   ];
 
   final List<InterestArea> interestAreas = [
     InterestArea(
-      title: AppStrings.firstInterestTitle,
-      imageUrl: 'assets/images/tenis.jpg',
-    ),
+        title: AppStrings.firstInterestTitle,
+        imageUrl: AppAsset.firstInterestTitle),
     InterestArea(
-      title: AppStrings.secondInterestTitle,
-      imageUrl: 'assets/images/dunya.jpg',
-    ),
+        title: AppStrings.secondInterestTitle,
+        imageUrl: AppAsset.secondInterestTitle),
     InterestArea(
       title: AppStrings.thirdInterestTitle,
-      imageUrl: 'assets/images/coin.png',
+      imageUrl: AppAsset.thirdInterestTitle,
     ),
     InterestArea(
       title: AppStrings.fourthInterestTitle,
-      imageUrl: 'assets/images/kitap.jpg',
+      imageUrl: AppAsset.fifthInterestTitle,
     ),
     InterestArea(
       title: AppStrings.fifthInterestTitle,
-      imageUrl: 'assets/images/zihin.jpg',
+      imageUrl: AppAsset.fifthInterestTitle,
     ),
   ];
 

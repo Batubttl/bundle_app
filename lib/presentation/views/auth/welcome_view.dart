@@ -1,3 +1,4 @@
+import 'package:bundle_app/core/constants/app_constants.dart';
 import 'package:bundle_app/presentation/views/auth/login_view.dart';
 import 'package:bundle_app/presentation/views/auth/signup_view.dart';
 import 'package:bundle_app/presentation/widgets/close_icon_widget.dart';
@@ -16,46 +17,35 @@ class WelcomeView extends StatelessWidget {
         child: Stack(
           children: [
             CloseWidget(),
-
-            // Ana içerik
-
             Column(
               children: [
-                // Logo
-                const SizedBox(height: 100), // Üstten boşluk
+                const SizedBox(height: 100),
                 Image.asset(
-                  'assets/images/bundle.png',
-                  height: 100, // Logo boyutu
+                  AppAsset.bundleLogo,
+                  height: 100,
                   width: 100,
                 ),
                 SizedBox(
                   height: 200,
-                ), // Logo ile butonlar arası esnek boşluk
-                // Butonlar
+                ),
                 CustomButton(
                   borderRadius: 4,
                   height: 60,
-                  text: 'Bundle ile giriş yap',
+                  text: AppStrings.titleText,
                   onPressed: () {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) => const LoginView()));
-                    // Giriş işlemi
                   },
-                  imagePath: 'assets/images/bundle-removebg-preview.png',
+                  imagePath: AppAsset.bundleButton,
                 ),
                 const SizedBox(
                   height: 12,
                 ),
-
-                // Sosyal medya butonları
                 const SizedBox(height: 30),
-
                 _socialMediaButton(),
-
-                const SizedBox(height: 30), // Alt boşluk
-
+                const SizedBox(height: 30),
                 _BuildSignupButton(),
               ],
             ),
@@ -70,23 +60,17 @@ class WelcomeView extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         SocialButton(
-          imagePath: 'assets/images/facebook-removebg-preview.png',
-          onPressed: () {
-            // Facebook giriş işlemi
-          },
+          imagePath: AppAsset.facebookLogo,
+          onPressed: () {},
         ),
         SizedBox(width: 8),
         SocialButton(
-          imagePath: 'assets/images/google-removebg-preview.png',
-          onPressed: () {
-            // Google giriş işlemi
-          },
+          imagePath: AppAsset.googleLogo,
+          onPressed: () {},
         ),
         SocialButton(
-          imagePath: 'assets/images/twitter.png',
-          onPressed: () {
-            // Twitter giriş işlemi
-          },
+          imagePath: AppAsset.twitterLogo,
+          onPressed: () {},
         ),
       ],
     );
@@ -110,10 +94,10 @@ class _BuildSignupButton extends StatelessWidget {
           ),
           child: const Text.rich(
             TextSpan(
-              text: 'Hesabınız mı yok? ',
+              text: AppStrings.noAccountText,
               children: [
                 TextSpan(
-                  text: 'Bundle için kaydolun.',
+                  text: AppStrings.signUpText,
                   style: TextStyle(
                     decoration: TextDecoration.underline,
                   ),

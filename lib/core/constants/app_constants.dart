@@ -80,4 +80,47 @@ class AppStrings {
   static const String canSearch = 'Arama';
   static const String wordleText = 'Wordle oyna kafanı dağıt.';
   static const String wordleLetterText = 'W';
+  static const String userNotFound =
+      "Bu e-posta adresi ile kayıtlı kullanıcı bulunamadı";
+  static const String wrongPassword = "Hatalı parola";
+  static const String invalidEmail = "Geçersiz e-posta adresi";
+  static const String userDisabled = "Bu hesap devre dışı bırakılmış";
+  static const String tooManyRequests =
+      "Çok fazla başarısız giriş denemesi. Lütfen daha sonra tekrar deneyin";
+  static const String unexpectedError = "Beklenmeyen bir hata oluştu";
+  static const String emailAlreadyInUse = "Bu e-posta adresi zaten kullanımda";
+  static const String weakPassword = "Parola çok zayıf";
+  static const String signOutError = "Çıkış yapılırken bir hata oluştu";
+  static const String resetPasswordUserNotFound =
+      "Bu e-posta adresi ile kayıtlı bir kullanıcı bulunamadı.";
+
+  static const String popularNewsError = "Popüler haberler yüklenemedi";
+  static const String featuredNewsError = "Öne çıkan haberler yüklenemedi";
+  static const String parseError = "Veri ayrıştırma hatası";
+  static const String dayToday = "Bugün";
+  static const String sendPasswordResetEmail =
+      'Şifre sıfırlama bağlantısı e-posta adresinize gönderildi.';
+  static const String needPassword = "Parola Gerekli";
+  static const String needMail = "E-posta gerekli";
+  static const String atLeastSix = 'Parola en az 6 karakter olmalı';
+  static const String errorNewsLoading = 'Haberler yüklenirken hata oluştu';
+}
+
+class AppAsset {
+  static const String bundleLogo = 'assets/images/bundle.png';
+  static const String twitterLogo = 'assets/images/twitter.png';
+  static const String facebookLogo =
+      'assets/images/facebook-removebg-preview.png';
+  static const String googleLogo = 'assets/images/google-removebg-preview.png';
+  static const String bundleButton =
+      'assets/images/bundle-removebg-preview.png';
+
+  static const String firstInterestTitle = 'assets/images/tenis.jpg';
+  static const String secondInterestTitle = 'assets/images/dunya.jpg';
+  static const String thirdInterestTitle = 'assets/images/coin.png';
+  static const String fourthInterestTitle = 'assets/images/kitap.jpg';
+  static const String fifthInterestTitle = 'assets/images/zihin.jpg';
+  static const String gptImage = 'assets/images/gpt.png';
+  static const String discountImage = 'assets/images/superlig.jpeg';
+  static const String cryptoImage = 'assets/images/bitcoin.png';
 }

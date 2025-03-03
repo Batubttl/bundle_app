@@ -56,7 +56,7 @@ class WeatherDetailContent extends StatelessWidget {
             ),
             body: Center(
               child: Text(
-                'Veri bulunamadı',
+                AppStrings.parseError,
                 style: AppTextStyles.body.copyWith(color: context.textColor),
               ),
             ),

@@ -37,11 +37,9 @@ class BundleApp extends StatelessWidget {
           splitScreenMode: true,
           builder: (_, child) => MaterialApp(
             debugShowCheckedModeBanner: false,
-
-            theme: AppTheme.lightTheme, // Aydınlık tema
-            darkTheme: AppTheme.darkTheme, // Karanlık tema
-            themeMode:
-                themeProvider.themeMode, // Tema modu (system, light, dark)
+            theme: AppTheme.lightTheme,
+            darkTheme: AppTheme.darkTheme,
+            themeMode: themeProvider.themeMode,
             home: const SplashView(),
           ),
         );

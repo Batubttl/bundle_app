@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:bundle_app/core/constants/app_constants.dart';
 import 'package:bundle_app/core/enum/news_category_enum.dart';
 import 'package:flutter/material.dart';
 import '../../../model/article_model.dart';
@@ -28,7 +29,7 @@ class NotificationsViewModel extends ChangeNotifier {
       isLoading = false;
       notifyListeners();
     } catch (e) {
-      error = 'Haberler yüklenirken hata oluştu: $e';
+      error = '${AppStrings.errorNewsLoading}: $e';
       isLoading = false;
       notifyListeners();
     }
@@ -38,9 +39,7 @@ class NotificationsViewModel extends ChangeNotifier {
     await _loadTechnologyNews();
   }
 
-  void markAsRead(String articleUrl) {
-    // İleride okundu işaretleme özelliği eklenebilir
-  }
+  void markAsRead(String articleUrl) {}
 
   void clearAll() {
     notifications.clear();

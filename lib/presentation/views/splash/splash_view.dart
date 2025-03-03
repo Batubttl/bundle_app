@@ -1,3 +1,4 @@
+import 'package:bundle_app/core/constants/app_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../core/extensions/theme_extension.dart';
@@ -43,7 +44,7 @@ class _SplashViewContent extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Image.asset(
-                  'assets/images/bundle-removebg-preview.png',
+                  AppAsset.bundleButton,
                   width: 200.w,
                   height: 200.w,
                 ),

@@ -1,3 +1,4 @@
+import 'package:bundle_app/core/constants/app_constants.dart';
 import 'package:bundle_app/core/enum/news_category_enum.dart';
 import 'package:bundle_app/model/article_model.dart';
 import 'package:dio/dio.dart';
@@ -23,7 +24,7 @@ class NewsService {
       final response = await _apiClient.dio.get(
         '$baseUrl/everything',
         queryParameters: {
-          'q': _getCategoryQuery(category),
+          'q': category.queryString,
           'language': 'tr',
           'sortBy': 'publishedAt',
           'pageSize': 20,
@@ -45,25 +46,6 @@ class NewsService {
         debugPrint('DioError response: ${e.response}');
       }
       rethrow;
-    }
-  }
-
-  String _getCategoryQuery(NewsCategory category) {
-    switch (category) {
-      case NewsCategory.tumu:
-        return '(türkiye OR türk OR ankara OR istanbul)';
-      case NewsCategory.gundem:
-        return '(gündem OR siyaset OR politika)';
-      case NewsCategory.spor:
-        return '(spor OR futbol OR basketbol OR fenerbahçe OR galatasaray OR beşiktaş)';
-      case NewsCategory.teknoloji:
-        return '(teknoloji OR yazılım OR bilişim OR yapay zeka)';
-      case NewsCategory.bilim:
-        return '(bilim OR uzay OR araştırma OR keşif)';
-      case NewsCategory.ekonomi:
-        return '(ekonomi OR finans OR borsa OR dolar OR altın)';
-      case NewsCategory.eglence:
-        return '(magazin OR sinema OR dizi OR müzik)';
     }
   }
 
@@ -139,10 +121,11 @@ class NewsService {
                 ))
             .toList();
       } else {
-        throw Exception('Popüler haberler yüklenemedi: ${response.statusCode}');
+        throw Exception(
+            '${AppStrings.popularNewsError}: ${response.statusCode}');
       }
     } catch (e) {
-      throw Exception('Popüler haberler yüklenemedi: $e');
+      throw Exception('${AppStrings.popularNewsError}: $e');
     }
   }
 
