@@ -19,7 +19,6 @@ void setupLocator() {
   locator.registerLazySingleton(() => WeatherService());
   locator.registerLazySingleton(() => CurrencyService());
 
-  // ViewModels
   locator.registerFactory(() => HomeViewModel(locator()));
   locator.registerFactory(() => SearchViewModel(locator()));
   locator.registerFactory(() => WeatherViewModel(locator()));

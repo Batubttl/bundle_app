@@ -21,9 +21,7 @@ class ForgotPasswordView extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Çarpı ikonu
                 CloseWidget(),
-
                 Expanded(
                   child: SingleChildScrollView(
                     child: Padding(
@@ -32,14 +30,11 @@ class ForgotPasswordView extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           const SizedBox(height: 40),
-                          // Başlık
                           Text(
                             AppStrings.forgotPasswordText,
                             style: Theme.of(context).textTheme.headlineLarge,
                           ),
                           const SizedBox(height: 16),
-
-                          // Açıklama metni
                           Text(
                             AppStrings.chooseEmailText,
                             style: Theme.of(context)
@@ -53,20 +48,15 @@ class ForgotPasswordView extends StatelessWidget {
                             textAlign: TextAlign.center,
                           ),
                           const SizedBox(height: 40),
-
-                          // Form
                           Form(
                             key: viewModel.formKey,
                             child: Column(
                               children: [
-                                // E-posta
                                 CustomTextFormField(
                                   controller: viewModel.emailController,
                                   hintText: AppStrings.emailHint,
                                 ),
                                 const SizedBox(height: 24),
-
-                                // Şifreyi Sıfırla Butonu
                                 CustomButton(
                                   text: viewModel.isLoading
                                       ? AppStrings.loadingText

@@ -79,7 +79,6 @@ class _FeaturedViewContent extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // BUNDLE ÖZEL Başlığı
           Padding(
             padding: EdgeInsets.only(left: 16.w, top: 16.h, bottom: 12.h),
             child: Text(
@@ -90,8 +89,6 @@ class _FeaturedViewContent extends StatelessWidget {
               ),
             ),
           ),
-
-          // Story Items
           SizedBox(
             height: 100.h,
             child: ListView(
@@ -119,8 +116,6 @@ class _FeaturedViewContent extends StatelessWidget {
               ],
             ),
           ),
-
-          // Spor haberi banner'ı
           if (viewModel.latestSportsArticle != null)
             FeaturedSportsBanner(
               article: viewModel.latestSportsArticle!,
@@ -135,8 +130,6 @@ class _FeaturedViewContent extends StatelessWidget {
                 );
               },
             ),
-
-          // Popüler Başlığı
           Padding(
             padding: EdgeInsets.only(left: 16.w, top: 8.h, bottom: 8.h),
             child: Text(

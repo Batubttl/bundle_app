@@ -26,7 +26,6 @@ class FeaturedSportsBanner extends StatelessWidget {
         child: Stack(
           fit: StackFit.expand,
           children: [
-            // Haber görseli
             ClipRRect(
               borderRadius: BorderRadius.circular(12.r),
               child: CachedNetworkImage(
@@ -46,7 +45,6 @@ class FeaturedSportsBanner extends StatelessWidget {
                 ),
               ),
             ),
-            // Karartma gradyanı
             Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(12.r),
@@ -59,7 +57,6 @@ class FeaturedSportsBanner extends StatelessWidget {
                 ),
               ),
             ),
-            // Haber başlığı ve kaynağı
             Positioned(
               left: 16.w,
               right: 16.w,

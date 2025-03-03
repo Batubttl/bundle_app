@@ -21,7 +21,6 @@ class NotificationsViewModel extends ChangeNotifier {
       isLoading = true;
       notifyListeners();
 
-      // Teknoloji haberlerini al
       final articles =
           await _newsService.getNewsByCategory(NewsCategory.teknoloji);
       notifications = articles;

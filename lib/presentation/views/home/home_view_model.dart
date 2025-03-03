@@ -8,7 +8,6 @@ import '../../../services/news_service.dart';
 class HomeViewModel extends ChangeNotifier {
   final NewsService _newsService;
 
-  // State variables
   List<Article> _articles = [];
   bool _isLoading = false;
   final bool _isLoadingMore = false;
@@ -16,12 +15,10 @@ class HomeViewModel extends ChangeNotifier {
   NewsCategory _selectedCategory = NewsCategory.tumu;
   int _currentPage = 1;
   bool _hasMore = true;
-  int currentIndex = 0; // Bottom Navigation için eklendi
+  int currentIndex = 0;
 
-  // Debounce için
   Timer? _debounceTimer;
 
-  // Getters
   List<Article> get articles => _articles;
   bool get isLoading => _isLoading;
   bool get isLoadingMore => _isLoadingMore;
@@ -90,28 +87,23 @@ class HomeViewModel extends ChangeNotifier {
     }
   }
 
-  // Arama yapma
   Future<void> search(String query) async {
-    // This method will be updated based on actual implementation
     throw UnimplementedError();
   }
 
-  // Yenileme
   Future<void> refreshArticles() async {
-    debugPrint('Refreshing articles'); // Debug log
+    debugPrint('Refreshing articles');
     return refreshNews();
   }
 
-  // Daha fazla haber yükleme
   Future<void> loadMore() async {
-    debugPrint('Loading more articles'); // Debug log
+    debugPrint('Loading more articles');
     if (!_isLoading && !_isLoadingMore && _hasMore) {
       await loadMoreNews();
     }
   }
 
   void onTabTapped(int index) {
-    // Bottom Navigation için eklendi
     currentIndex = index;
     notifyListeners();
   }

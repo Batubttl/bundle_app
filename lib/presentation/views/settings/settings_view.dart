@@ -35,15 +35,12 @@ class _SettingsViewState extends State<SettingsView> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Ana Ayarlar
               _buildSettingItem(
                 icon: Icons.notifications_outlined,
                 iconColor: context.primaryColor,
                 title: AppStrings.notificationsTitle,
                 showArrow: true,
-                onTap: () {
-                  // Bildirim ayarlarına git
-                },
+                onTap: () {},
               ),
               _buildSettingItem(
                 icon: Icons.dark_mode_outlined,
@@ -68,10 +65,7 @@ class _SettingsViewState extends State<SettingsView> {
                 title: AppStrings.appIconText,
                 showArrow: true,
               ),
-
               SizedBox(height: 32.h),
-
-              // Görüntüleme Modu
               Text(
                 AppStrings.viewMode,
                 style: AppTextStyles.caption.copyWith(
@@ -95,10 +89,7 @@ class _SettingsViewState extends State<SettingsView> {
                   ),
                 ],
               ),
-
               SizedBox(height: 32.h),
-
-              // Uygulama Ayarları
               Text(
                 AppStrings.appSettings,
                 style: AppTextStyles.caption.copyWith(

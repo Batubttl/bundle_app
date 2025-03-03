@@ -11,7 +11,6 @@ class FeaturedViewModel extends ChangeNotifier {
   bool _isLoading = true;
   String? _error;
 
-  // Getter'lar
   bool get isLoading => _isLoading;
   String? get error => _error;
   Article? get latestSportsArticle => _latestSportsArticle;
@@ -27,7 +26,6 @@ class FeaturedViewModel extends ChangeNotifier {
       _isLoading = true;
       notifyListeners();
 
-      // Her kategori için haberleri çek
       final futures = [
         _newsService.getNewsByCategory(NewsCategory.tumu),
         _newsService.getNewsByCategory(NewsCategory.bilim),
@@ -43,7 +41,6 @@ class FeaturedViewModel extends ChangeNotifier {
         NewsCategory.gundem: results[2],
       };
 
-      // Spor haberlerinden en sonuncusunu al
       final sportsNews = results[3];
       if (sportsNews.isNotEmpty) {
         _latestSportsArticle = sportsNews.first;
@@ -59,7 +56,6 @@ class FeaturedViewModel extends ChangeNotifier {
     }
   }
 
-  // Story getirme metodları
   List<Article> getFeaturedStories() {
     return _categoryArticles[NewsCategory.gundem]?.take(5).toList() ?? [];
   }
@@ -72,9 +68,7 @@ class FeaturedViewModel extends ChangeNotifier {
     return _categoryArticles[NewsCategory.bilim]?.take(5).toList() ?? [];
   }
 
-  // Story görüntülenme durumunu işaretleme
   void markCategoryAsViewed(String categoryId) {
-    // İleride kullanılabilir
     notifyListeners();
   }
 }

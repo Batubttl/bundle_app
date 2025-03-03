@@ -9,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import '../../../services/weather_service.dart';
-// ... diğer importlar ...
 
 class WeatherDetailView extends StatelessWidget {
   const WeatherDetailView({super.key});
@@ -73,7 +72,6 @@ class WeatherDetailContent extends StatelessWidget {
           ),
           body: ListView(
             children: [
-              // Şehir ve Sıcaklık
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.4,
                 child: Column(
@@ -106,8 +104,6 @@ class WeatherDetailContent extends StatelessWidget {
                   ],
                 ),
               ),
-
-              // Saatlik Tahmin
               SizedBox(
                 height: 150.h,
                 child: ListView.builder(
@@ -155,8 +151,6 @@ class WeatherDetailContent extends StatelessWidget {
                   },
                 ),
               ),
-
-              // Haftalık Görünüm
               Padding(
                 padding: EdgeInsets.all(24.w),
                 child: Column(

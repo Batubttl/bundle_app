@@ -8,7 +8,6 @@ class StoryViewModel extends ChangeNotifier {
 
   StoryViewModel({required this.stories});
 
-  // Getter'lar
   int get currentIndex => _currentIndex;
   bool get isLoading => _isLoading;
   Article get currentStory => stories[_currentIndex];
@@ -16,7 +15,6 @@ class StoryViewModel extends ChangeNotifier {
   bool get isLastStory => _currentIndex == stories.length - 1;
   bool get hasStories => stories.isNotEmpty;
 
-  // Story'ler arası geçiş
   void nextStory() {
     if (_currentIndex < stories.length - 1) {
       _currentIndex++;
@@ -31,21 +29,13 @@ class StoryViewModel extends ChangeNotifier {
     }
   }
 
-  // Story görüntülenme durumu
-  void markStoryAsViewed() {
-    // Burada story'nin görüntülenme durumunu kaydedebiliriz
-    // Örneğin: Firebase'e log gönderme, local storage'a kaydetme vs.
-  }
+  void markStoryAsViewed() {}
 
-  // Haber detayına gitme
   Future<void> navigateToNewsDetail(BuildContext context) async {
     _isLoading = true;
     notifyListeners();
 
-    try {
-      // Haber detayına yönlendirme işlemleri
-      // Örneğin: URL'i açma, detay sayfasına yönlendirme vs.
-    } catch (e) {
+    try {} catch (e) {
       debugPrint('Error navigating to news detail: $e');
     } finally {
       _isLoading = false;

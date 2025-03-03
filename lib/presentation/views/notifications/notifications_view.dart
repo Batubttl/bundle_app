@@ -98,7 +98,6 @@ class _NotificationsViewContent extends StatelessWidget {
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Sol taraf - Saat
                 SizedBox(
                   width: 60.w,
                   child: Text(
@@ -110,13 +109,10 @@ class _NotificationsViewContent extends StatelessWidget {
                   ),
                 ),
                 SizedBox(width: 12.w),
-
-                // Sağ taraf - İçerik
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Kaynak ve logo
                       Row(
                         children: [
                           if (article.urlToImage != null)
@@ -136,7 +132,6 @@ class _NotificationsViewContent extends StatelessWidget {
                         ],
                       ),
                       SizedBox(height: 8.h),
-
                       Text(
                         article.title,
                         style: AppTextStyles.body.copyWith(
@@ -145,7 +140,6 @@ class _NotificationsViewContent extends StatelessWidget {
                         ),
                       ),
                       SizedBox(height: 8.h),
-
                       Row(
                         children: [
                           Padding(

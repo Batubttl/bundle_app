@@ -27,7 +27,6 @@ class LoginViewModel extends ChangeNotifier {
     super.dispose();
   }
 
-  // Form validasyonları
   String? validateEmail(String? value) {
     if (value == null || value.isEmpty) {
       return AppStrings.needMail;
@@ -48,7 +47,6 @@ class LoginViewModel extends ChangeNotifier {
     return null;
   }
 
-  // Navigation metodları
   void navigateToForgotPassword(BuildContext context) {
     Navigator.push(
       context,
@@ -79,7 +77,6 @@ class LoginViewModel extends ChangeNotifier {
     );
   }
 
-  // Login işlemi
   Future<void> handleLogin(BuildContext context) async {
     if (formKey.currentState!.validate()) {
       _isLoading = true;
@@ -104,7 +101,6 @@ class LoginViewModel extends ChangeNotifier {
     }
   }
 
-  // Text.rich için getter
   TextSpan get signUpTextSpan => TextSpan(
         text: AppStrings.noAccountText,
         style: AppTextStyles.body,

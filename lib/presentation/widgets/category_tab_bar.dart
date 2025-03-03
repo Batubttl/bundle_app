@@ -23,7 +23,6 @@ class CategoryTabBar extends StatelessWidget {
       color: context.backgroundColor,
       child: Row(
         children: [
-          // Menü İkonu
           GestureDetector(
             onTap: () {
               Scaffold.of(context).openDrawer();
@@ -31,18 +30,16 @@ class CategoryTabBar extends StatelessWidget {
             child: Container(
               width: 48.w,
               alignment: Alignment.center,
-              color: context.backgroundColor, // Menü arka plan rengi
+              color: context.backgroundColor,
               child: Icon(
                 Icons.menu,
                 color: Theme.of(context).brightness == Brightness.dark
                     ? AppColors.white
-                    : AppColors.black, // Menü ikonu her zaman beyaz
+                    : AppColors.black,
                 size: 24.sp,
               ),
             ),
           ),
-
-          // Kaydırılabilir Kategoriler
           Expanded(
             child: ListView(
               scrollDirection: Axis.horizontal,

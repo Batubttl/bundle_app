@@ -9,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class LoginView extends StatelessWidget {
-  // StatefulWidget'tan StatelessWidget'a çevirdik
   const LoginView({super.key});
 
   @override
@@ -25,9 +24,7 @@ class LoginView extends StatelessWidget {
                 height: MediaQuery.of(context).size.height,
                 child: Column(
                   children: [
-                    // Çarpı ikonu
                     const CloseWidget(),
-
                     Expanded(
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 48),
@@ -35,7 +32,6 @@ class LoginView extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             const SizedBox(height: 40),
-                            // Başlık
                             Text(
                               AppStrings.titleText,
                               style: AppTextStyles.h1.copyWith(
@@ -43,17 +39,10 @@ class LoginView extends StatelessWidget {
                               ),
                             ),
                             const SizedBox(height: 40),
-
-                            // Form
                             _buildLoginForm(context, viewModel),
-
-                            // Parolanızı mı unuttunuz?
                             const SizedBox(height: 16),
                             _buildForgotPasswordButton(context, viewModel),
-
                             const Spacer(),
-
-                            // Hesabınız mı yok?
                             _buildSignUpButton(context, viewModel),
                           ],
                         ),

@@ -7,7 +7,6 @@ import '../core/network/api_client.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-//TODO : Refactor
 class NewsService {
   final ApiClient _apiClient;
   static const String baseUrl = 'https://newsapi.org/v2';
@@ -100,8 +99,6 @@ class NewsService {
     debugPrint('Parse error - Response Data: ${response.data}');
     return [];
   }
-
-  // TODO : Enum
 
   Future<List<Article>> getTopHeadlines() async {
     try {

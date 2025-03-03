@@ -13,15 +13,12 @@ class ApiConstants {
   static const Map<String, String> categoryQueries = {
     'tumu': '(türkiye OR türk OR ankara OR istanbul)',
     'gundem': '(gündem OR siyaset OR politika)',
-    // ...diğer kategori sorguları
   };
 
-  // Currency endpoint
   static String getCurrencyRate() {
     return '$currencyBaseUrl/$currencyApiKey/latest/USD';
   }
 
-  // API endpoint'leri
   static String getNewsByCategory(String category, {int page = 1}) {
     return '$baseUrl?q=$category&apiKey=$apiKey&page=$page&language=tr';
   }

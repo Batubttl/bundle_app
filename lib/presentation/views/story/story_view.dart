@@ -56,7 +56,6 @@ class _StoryViewContent extends StatelessWidget {
             backgroundColor: Colors.black,
             body: Stack(
               children: [
-                // Progress bar
                 Positioned(
                   top: 44.h,
                   left: 0,
@@ -75,15 +74,11 @@ class _StoryViewContent extends StatelessWidget {
                     ),
                   ),
                 ),
-
-                // Story content
                 _StoryContent(
                   story: viewModel.currentStory,
                   categoryTitle: categoryTitle,
                   categoryColor: categoryColor,
                 ),
-
-                // Close button
                 Positioned(
                   top: 32.h,
                   right: 8.w,
@@ -92,8 +87,6 @@ class _StoryViewContent extends StatelessWidget {
                     onPressed: () => Navigator.pop(context),
                   ),
                 ),
-
-                // Loading indicator
                 if (viewModel.isLoading)
                   const Center(child: CircularProgressIndicator()),
               ],
@@ -121,7 +114,6 @@ class _StoryContent extends StatelessWidget {
     return GestureDetector(
       onVerticalDragEnd: (details) {
         if (details.primaryVelocity! < 0) {
-          // Yukarı kaydırma
           Navigator.push(
             context,
             MaterialPageRoute(
@@ -132,7 +124,6 @@ class _StoryContent extends StatelessWidget {
       },
       child: Column(
         children: [
-          // Header
           Padding(
             padding: EdgeInsets.only(top: 60.h, left: 16.w, right: 16.w),
             child: Row(
@@ -161,8 +152,6 @@ class _StoryContent extends StatelessWidget {
               ],
             ),
           ),
-
-          // Content
           Expanded(
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 16.w),
@@ -214,8 +203,6 @@ class _StoryContent extends StatelessWidget {
               ),
             ),
           ),
-
-          // Footer with swipe indicator
           Padding(
             padding: EdgeInsets.only(bottom: 32.h),
             child: Column(

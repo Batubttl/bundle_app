@@ -8,13 +8,12 @@ class ThemeProvider extends ChangeNotifier {
   late ThemeMode _themeMode;
 
   ThemeProvider() {
-    _themeMode = ThemeMode.system; // Varsayılan değer
+    _themeMode = ThemeMode.system;
     _loadThemeMode();
   }
 
   ThemeMode get themeMode => _themeMode;
 
-  // Tema modunu yükle
   Future<void> _loadThemeMode() async {
     try {
       final prefs = await SharedPreferences.getInstance();
@@ -31,7 +30,6 @@ class ThemeProvider extends ChangeNotifier {
     }
   }
 
-  // Tema modunu değiştir ve kaydet
   Future<void> setThemeMode(ThemeMode mode) async {
     if (_themeMode != mode) {
       _themeMode = mode;

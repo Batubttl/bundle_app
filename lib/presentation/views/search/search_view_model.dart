@@ -10,7 +10,6 @@ class SearchViewModel extends ChangeNotifier {
   final NewsService _newsService;
   TabController? _tabController;
 
-  // State variables
   List<Article> articles = [];
   bool _isLoading = false;
   String? _error;
@@ -68,9 +67,7 @@ class SearchViewModel extends ChangeNotifier {
 
   TabController get tabController => _tabController!;
 
-  void _init() {
-    // Diğer başlangıç işlemleri
-  }
+  void _init() {}
 
   void initTabController(TickerProvider vsync) {
     _tabController = TabController(
@@ -80,7 +77,6 @@ class SearchViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  // Getters
   bool get isLoading => _isLoading;
   String? get error => _error;
   bool get hasResults => articles.isNotEmpty;

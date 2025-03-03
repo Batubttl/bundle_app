@@ -26,7 +26,6 @@ enum NewsCategory {
     }
   }
 
-  // Yeni eklenen getter
   String get queryString {
     switch (this) {
       case NewsCategory.tumu:

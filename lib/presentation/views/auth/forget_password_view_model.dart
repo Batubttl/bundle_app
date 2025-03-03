@@ -49,7 +49,6 @@ class ForgotPasswordViewModel extends ChangeNotifier {
     return null;
   }
 
-  // Şifre sıfırlama işlemi
   Future<bool> forgotPassword(String email) async {
     _isLoading = true;
     _errorMessage = null;

@@ -7,7 +7,6 @@ import '../../../model/topic_models.dart';
 class InterestAreasCarousel extends StatelessWidget {
   final List<InterestArea> areas;
 
-  // Sabit ilgi alanları listesi
   static final List<InterestArea> defaultAreas = [
     InterestArea(
       title: AppStrings.firstInterestTitle,
@@ -38,7 +37,6 @@ class InterestAreasCarousel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Eğer dışarıdan areas boş gelirse default listeyi kullan
     final displayAreas = areas.isEmpty ? defaultAreas : areas;
 
     return CarouselSlider.builder(

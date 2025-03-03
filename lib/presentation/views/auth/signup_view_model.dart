@@ -4,30 +4,22 @@ import '../../../services/auth_services.dart';
 import 'login_view.dart';
 
 class SignUpViewModel extends ChangeNotifier {
-  // Dependencies
   final AuthService _authService;
 
-  // Controllers
   final formKey = GlobalKey<FormState>();
   final nameController = TextEditingController();
   final surnameController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
-  // State variables
   bool _isLoading = false;
   String? _errorMessage;
 
-  // Getters
   bool get isLoading => _isLoading;
   String? get errorMessage => _errorMessage;
 
-  // Constants
-
-  // Constructor
   SignUpViewModel(this._authService);
 
-  // Dispose method
   @override
   void dispose() {
     nameController.dispose();
@@ -37,7 +29,6 @@ class SignUpViewModel extends ChangeNotifier {
     super.dispose();
   }
 
-  // Validation methods
   String? validateName(String? value) {
     if (value == null || value.isEmpty) {
       return 'Ad gerekli';
@@ -72,7 +63,6 @@ class SignUpViewModel extends ChangeNotifier {
     return null;
   }
 
-  // Business logic
   Future<void> handleSignUp(BuildContext context) async {
     if (formKey.currentState!.validate()) {
       _isLoading = true;
@@ -99,7 +89,6 @@ class SignUpViewModel extends ChangeNotifier {
     }
   }
 
-  // Navigation methods
   void navigateToLogin(BuildContext context) {
     Navigator.pushAndRemoveUntil(
       context,

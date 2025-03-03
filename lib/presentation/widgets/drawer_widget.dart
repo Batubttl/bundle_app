@@ -81,7 +81,6 @@ class _DrawerWidgetState extends State<DrawerWidget> {
         child: SafeArea(
           child: Column(
             children: [
-              // Üst Kısım
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
                 child: Row(
@@ -131,7 +130,6 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                   ],
                 ),
               ),
-
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
                 child: Row(
@@ -167,7 +165,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                     ),
                     TextButton(
                       onPressed: () {
-                        Navigator.pop(context); // Drawer'ı kapat
+                        Navigator.pop(context);
                         Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -197,10 +195,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                   ],
                 ),
               ),
-
               SizedBox(height: 20.h),
-
-              // Kategoriler
               Expanded(
                 child: Column(
                   children: [

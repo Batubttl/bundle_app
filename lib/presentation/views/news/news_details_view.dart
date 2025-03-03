@@ -43,9 +43,7 @@ class NewsDetailView extends StatelessWidget {
           ),
           IconButton(
             icon: Icon(Icons.more_horiz, color: context.textColor),
-            onPressed: () {
-              // Menü açma fonksiyonu
-            },
+            onPressed: () {},
           ),
         ],
       ),
@@ -162,27 +160,19 @@ class NewsDetailView extends StatelessWidget {
           children: [
             IconButton(
               icon: Icon(Icons.format_size, color: context.textColor),
-              onPressed: () {
-                // Font boyutu ayarlama
-              },
+              onPressed: () {},
             ),
             IconButton(
               icon: Icon(Icons.favorite_border, color: context.textColor),
-              onPressed: () {
-                // Favorilere ekleme
-              },
+              onPressed: () {},
             ),
             IconButton(
               icon: Icon(Icons.share, color: context.textColor),
-              onPressed: () {
-                // Paylaşma fonksiyonu
-              },
+              onPressed: () {},
             ),
             IconButton(
               icon: Icon(Icons.bookmark_border, color: context.textColor),
-              onPressed: () {
-                // Kaydetme fonksiyonu
-              },
+              onPressed: () {},
             ),
           ],
         ),

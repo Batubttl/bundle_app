@@ -39,7 +39,6 @@ class _SearchViewContentState extends State<_SearchViewContent>
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      // Build tamamlandıktan sonra çağrılır
       Provider.of<SearchViewModel>(context, listen: false)
           .initTabController(this);
     });
@@ -94,5 +93,3 @@ class _SearchViewContentState extends State<_SearchViewContent>
     );
   }
 }
-
-// Model sınıfları

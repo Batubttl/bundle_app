@@ -9,7 +9,6 @@ class WeatherService {
 
   Future<WeatherData> getWeatherDetails() async {
     try {
-      // Mevcut hava durumu
       final currentResponse = await _dio.get(
         '${ApiConstants.weatherBaseUrl}/weather',
         queryParameters: {
@@ -19,7 +18,6 @@ class WeatherService {
         },
       );
 
-      // 5 günlük tahmin
       final forecastResponse = await _dio.get(
         '${ApiConstants.weatherBaseUrl}/forecast',
         queryParameters: {
@@ -34,7 +32,6 @@ class WeatherService {
         final List<HourlyWeather> hourlyList = [];
         final List<DailyWeather> dailyList = [];
 
-        // Saatlik tahminleri işle
         for (var item in (forecastResponse.data['list'] as List).take(24)) {
           hourlyList.add(HourlyWeather(
             time:
@@ -44,7 +41,6 @@ class WeatherService {
           ));
         }
 
-        // Günlük tahminleri işle
         var processedDays = <String>{};
         for (var item in forecastResponse.data['list']) {
           var date = DateTime.fromMillisecondsSinceEpoch(item['dt'] * 1000);

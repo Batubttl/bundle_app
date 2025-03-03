@@ -14,20 +14,15 @@ class SplashViewModel extends ChangeNotifier {
     if (_isInitialized) return;
 
     try {
-      // İlk istekleri burada at
       await Future.wait([
         _newsService.getNewsByCategory(NewsCategory.tumu),
         _newsService.getFeaturedNews(),
-        // Diğer başlangıç istekleri...
       ]);
-
-      // Gerekirse cache'leme işlemleri
 
       _isInitialized = true;
       notifyListeners();
     } catch (e) {
       debugPrint('Splash init error: $e');
-      // Hata durumunda ne yapılacağını belirle
     }
   }
 
